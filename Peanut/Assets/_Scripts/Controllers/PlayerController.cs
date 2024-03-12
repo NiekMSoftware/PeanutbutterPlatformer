@@ -16,25 +16,26 @@ namespace Assets._Scripts.Controllers
         [Space]
         [SerializeField] private Rigidbody _playerBod;
 
-        [Header("DEBUG")] 
-        [SerializeField] private float _maxHealth;
-        [SerializeField] private float _health;
-        [SerializeField] private float _speed;
-        [SerializeField] private float _drag;
-        [SerializeField] private float _jumpForce;
-
         [Header("Jumping Properties")] 
-        [SerializeField] private float _jumpTimer;
+        [SerializeField] private float _jumpTimer = .5f;
         private float _jumpTimerCountdown;
 
         [Header("Gravity Manipulation")]
-        [SerializeField] private float _gravityScale;
-        [SerializeField] private float _fallingSpeed;
+        [SerializeField] private float _gravityScale = 0f;
+        [SerializeField] private float _fallingSpeed = 0f;
 
         [Header("Ground Check")] 
         public LayerMask groundLayer;
         public Transform groundChecker;
-        public float rayDistance = .2f;
+        [Range(0f, 2f)] public float radius = .5f;
+
+        #region Movement Properties
+
+        private float _speed;
+        private float _drag;
+        private float _jumpForce;
+
+        #endregion
 
         #region Input Handling
 
@@ -63,9 +64,6 @@ namespace Assets._Scripts.Controllers
 
             Move();
             Jump();
-
-            // draw a ray every frame
-            Helper.DrawRayDown(groundChecker.position, rayDistance, 0.1f);
         }
 
         /// <summary>
@@ -77,9 +75,6 @@ namespace Assets._Scripts.Controllers
             _playerBod = GetComponent<Rigidbody>();
             GetComponent<CapsuleCollider>();
 
-            // init health
-            _maxHealth = playerEntityData.MaxHealth;
-            _health = _maxHealth;
             _speed = playerEntityData.Speed;
             _drag = playerEntityData.DragAmount;
             _jumpForce = playerEntityData.JumpForce;
@@ -90,10 +85,9 @@ namespace Assets._Scripts.Controllers
         /// </summary>
         private void KeepTrackOfData()
         {
-            playerEntityData.Health = _health;
-            playerEntityData.Speed = _speed;
-            playerEntityData.DragAmount = _drag;
-            playerEntityData.JumpForce = _jumpForce;
+            _speed = playerEntityData.Speed;
+            _drag = playerEntityData.DragAmount;
+            _jumpForce = playerEntityData.JumpForce;
         }
 
         /// <summary>
@@ -101,8 +95,6 @@ namespace Assets._Scripts.Controllers
         /// </summary>
         private void GetInput()
         {
-            if (HasDied()) return;
-
             _xMovement = Input.GetAxisRaw("Horizontal");
             _zMovement = Input.GetAxisRaw("Vertical");
 
@@ -173,28 +165,28 @@ namespace Assets._Scripts.Controllers
         }
 
         /// <summary>
-        /// Checks if the player has died.
-        /// </summary>
-        /// <returns>Returns false if the player health is above zero. It will return true once the player's health reaches zero.</returns>
-        private bool HasDied()
-        {
-            // return false if health is above 0
-            if (_health > 0) return false;
-
-            // die and return true
-            playerEntityData.Die();
-            return true;
-        }
-
-        /// <summary>
         /// Makes sure a value of drag will be applied based on if the player is moving and is grounded.
         /// </summary>
         /// <returns>The drag amount for the player.</returns>
         private float Drag() => _xMovement == 0 && _zMovement == 0 && IsGrounded() ? _drag : 0;
 
+        /// <summary>
+        /// Checks if the player is grounded by sending a ray downwards to the ground and checks it layer.
+        /// </summary>
+        /// <returns>Either returns true or false based on if the ray has hit the correct layer or not.</returns>
         private bool IsGrounded()
         {
-            return Physics.Raycast(groundChecker.position, Vector3.down, rayDistance, groundLayer);
+            // check with a sphere is the player is grounded or not
+            var pos = groundChecker.position;
+
+            Collider[] colliders = Physics.OverlapSphere(pos, radius, groundLayer);
+
+            return colliders.Length > 0;
+        }
+
+        void OnDrawGizmos()
+        {
+            Helper.DrawWireframeSphere(groundChecker.position, radius, Color.red);
         }
     }
 }

@@ -14,5 +14,17 @@ namespace Assets._Scripts
         {
             Debug.DrawRay(origin, new Vector3(0, -distance), Color.red, duration);
         }
+
+        /// <summary>
+        /// Draws a wireframe sphere at the specified position with the given radius and color using Gizmos.
+        /// </summary>
+        /// <param name="center">The center of the sphere.</param>
+        /// <param name="radius">The radius of the sphere.</param>
+        /// <param name="color">The color of the sphere.</param>
+        public static void DrawWireframeSphere(Vector3 center, float radius, Color color)
+        {
+            Gizmos.color = color;
+            Gizmos.DrawWireSphere(center, radius);
+        }
     }
 }
