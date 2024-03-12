@@ -15,5 +15,5 @@ MonoBehaviour:
   maxHealth: 100
   isDead: 0
   speed: 5
-  jumpForce: 7
+  jumpForce: 4
   dragAmount: 8

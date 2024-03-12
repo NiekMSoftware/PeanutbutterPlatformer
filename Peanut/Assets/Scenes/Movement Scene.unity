@@ -647,11 +647,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerEntityData: {fileID: 11400000, guid: 51cb3b6f82192f3429590c03b387a413, type: 2}
   _playerBod: {fileID: 0}
-  _maxHealth: 0
-  _health: 0
-  _speed: 0
-  _drag: 0
-  _jumpForce: 0
   _jumpTimer: 0.5
   _gravityScale: 10
   _fallingSpeed: 12
@@ -659,7 +654,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   groundChecker: {fileID: 1950522625}
-  rayDistance: 0.05
+  radius: 0.345
 --- !u!136 &718129488
 CapsuleCollider:
   m_ObjectHideFlags: 0
