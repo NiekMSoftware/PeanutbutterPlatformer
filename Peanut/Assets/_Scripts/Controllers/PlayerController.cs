@@ -32,6 +32,10 @@ namespace Assets._Scripts.Controllers
         private float _xMovement;
         private float _zMovement;
 
+        private bool _pressedJump;
+        private bool _holdingJump;
+        private bool _releasedJump;
+
         #endregion
 
         void Start()
@@ -91,6 +95,9 @@ namespace Assets._Scripts.Controllers
             _zMovement = Input.GetAxisRaw("Vertical");
         }
 
+        /// <summary>
+        /// Makes the player move around.
+        /// </summary>
         private void Move()
         {
             if (_xMovement != 0 || _zMovement != 0)
@@ -100,10 +107,15 @@ namespace Assets._Scripts.Controllers
         }
 
         /// <summary>
-        /// Makes sure a value of drag will be applied based on if the player is moving and is grounded.
+        /// Makes the player Jump upwards.
         /// </summary>
-        /// <returns>The drag amount for the player.</returns>
-        private float Drag() => _xMovement == 0 && _zMovement == 0 && IsGrounded() ? _drag : 0;
+        private void Jump()
+        {
+            if (_pressedJump && IsGrounded())
+            {
+
+            }
+        }
 
         /// <summary>
         /// Checks if the player has died.
@@ -118,6 +130,12 @@ namespace Assets._Scripts.Controllers
             playerEntityData.Die();
             return true;
         }
+
+        /// <summary>
+        /// Makes sure a value of drag will be applied based on if the player is moving and is grounded.
+        /// </summary>
+        /// <returns>The drag amount for the player.</returns>
+        private float Drag() => _xMovement == 0 && _zMovement == 0 && IsGrounded() ? _drag : 0;
 
         private bool IsGrounded()
         {
