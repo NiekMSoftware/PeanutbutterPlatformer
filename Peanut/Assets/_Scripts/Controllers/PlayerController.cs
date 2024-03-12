@@ -21,6 +21,15 @@ namespace Assets._Scripts.Controllers
         [SerializeField] private float _health;
         [SerializeField] private float _speed;
         [SerializeField] private float _drag;
+        [SerializeField] private float _jumpForce;
+
+        [Header("Jumping Properties")] 
+        [SerializeField] private float _jumpTimer;
+        private float _jumpTimerCountdown;
+
+        [Header("Gravity Manipulation")]
+        [SerializeField] private float _gravityScale;
+        [SerializeField] private float _fallingSpeed;
 
         [Header("Ground Check")] 
         public LayerMask groundLayer;
@@ -35,6 +44,7 @@ namespace Assets._Scripts.Controllers
         private bool _pressedJump;
         private bool _holdingJump;
         private bool _releasedJump;
+        private bool _isJumping;
 
         #endregion
 
@@ -51,13 +61,11 @@ namespace Assets._Scripts.Controllers
             // gather input
             GetInput();
 
+            Move();
+            Jump();
+
             // draw a ray every frame
             Helper.DrawRayDown(groundChecker.position, rayDistance, 0.1f);
-        }
-
-        void FixedUpdate()
-        {
-            Move();
         }
 
         /// <summary>
@@ -74,6 +82,7 @@ namespace Assets._Scripts.Controllers
             _health = _maxHealth;
             _speed = playerEntityData.Speed;
             _drag = playerEntityData.DragAmount;
+            _jumpForce = playerEntityData.JumpForce;
         }
 
         /// <summary>
@@ -82,6 +91,9 @@ namespace Assets._Scripts.Controllers
         private void KeepTrackOfData()
         {
             playerEntityData.Health = _health;
+            playerEntityData.Speed = _speed;
+            playerEntityData.DragAmount = _drag;
+            playerEntityData.JumpForce = _jumpForce;
         }
 
         /// <summary>
@@ -93,6 +105,10 @@ namespace Assets._Scripts.Controllers
 
             _xMovement = Input.GetAxisRaw("Horizontal");
             _zMovement = Input.GetAxisRaw("Vertical");
+
+            _pressedJump = Input.GetButtonDown("Jump");
+            _holdingJump = Input.GetButton("Jump");
+            _releasedJump = Input.GetButtonUp("Jump");
         }
 
         /// <summary>
@@ -101,7 +117,7 @@ namespace Assets._Scripts.Controllers
         private void Move()
         {
             if (_xMovement != 0 || _zMovement != 0)
-                _playerBod.velocity = new Vector3(_xMovement * _speed, 0, _zMovement * _speed);
+                _playerBod.velocity = new Vector3(_xMovement * _speed, _playerBod.velocity.y, _zMovement * _speed);
 
             _playerBod.drag = Drag();
         }
@@ -111,9 +127,48 @@ namespace Assets._Scripts.Controllers
         /// </summary>
         private void Jump()
         {
+            // check if the player is jumping whilst grounded
             if (_pressedJump && IsGrounded())
             {
+                // apply a force upwards.
+                _playerBod.velocity = Vector3.up * _jumpForce;
 
+                // set a countdown
+                _isJumping = true;
+                _jumpTimerCountdown = _jumpTimer;
+            }
+
+            // jump higher upon holding
+            if (_holdingJump && _isJumping)
+            {
+                if (_jumpTimerCountdown > 0)
+                {
+                    _playerBod.velocity = new Vector3(_xMovement * _speed, _jumpForce, _zMovement * _speed);
+                    _jumpTimerCountdown -= Time.deltaTime;
+                }
+                else
+                    _isJumping = false;
+            }
+
+            // check if the player isn't jumping anymore
+            if (_releasedJump)
+                _isJumping = false;
+
+            // ensure the player jump at least higher
+            if (_jumpTimerCountdown > 0)
+                _jumpTimerCountdown -= Time.deltaTime;
+
+            // reset the mass back to 1f
+            if (IsGrounded())
+                _playerBod.mass = 1f;
+            else // set a new mass of the player
+            {
+                _playerBod.mass = _gravityScale;
+
+                // clamp the velocity of the player once they fall
+                var velocity = _playerBod.velocity;
+                _playerBod.velocity = 
+                    new Vector3(velocity.x, Mathf.Clamp(velocity.y, -_fallingSpeed, Mathf.Infinity), velocity.z);
             }
         }
 
