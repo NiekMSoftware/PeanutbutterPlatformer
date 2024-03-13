@@ -11,7 +11,7 @@ namespace Assets._Scripts.Controllers
     public class PlayerController : MonoBehaviour
     {
         [Tooltip("The playerEntityData is basically the data of a scriptable object that has the stats of the player.")] 
-        public Player playerEntityData;
+        public Player PlayerEntityData;
 
         [Space]
         [SerializeField] private Rigidbody playerBod;
@@ -25,9 +25,9 @@ namespace Assets._Scripts.Controllers
         [SerializeField] private float fallingSpeed = 0f;
 
         [Header("Ground Check")] 
-        public LayerMask groundLayer;
-        public Transform groundChecker;
-        [Range(0f, 2f)] public float radius = .5f;
+        public LayerMask GroundLayer;
+        public Transform GroundChecker;
+        [Range(0f, 2f)] public float Radius = .5f;
 
         #region Movement Properties
 
@@ -75,9 +75,9 @@ namespace Assets._Scripts.Controllers
             playerBod = GetComponent<Rigidbody>();
             GetComponent<CapsuleCollider>();
 
-            _speed = playerEntityData.Speed;
-            _drag = playerEntityData.DragAmount;
-            _jumpForce = playerEntityData.JumpForce;
+            _speed = PlayerEntityData.Speed;
+            _drag = PlayerEntityData.DragAmount;
+            _jumpForce = PlayerEntityData.JumpForce;
         }
 
         /// <summary>
@@ -85,9 +85,9 @@ namespace Assets._Scripts.Controllers
         /// </summary>
         private void KeepTrackOfData()
         {
-            _speed = playerEntityData.Speed;
-            _drag = playerEntityData.DragAmount;
-            _jumpForce = playerEntityData.JumpForce;
+            _speed = PlayerEntityData.Speed;
+            _drag = PlayerEntityData.DragAmount;
+            _jumpForce = PlayerEntityData.JumpForce;
         }
 
         /// <summary>
@@ -177,16 +177,16 @@ namespace Assets._Scripts.Controllers
         private bool IsGrounded()
         {
             // check with a sphere is the player is grounded or not
-            var pos = groundChecker.position;
+            var pos = GroundChecker.position;
 
-            Collider[] colliders = Physics.OverlapSphere(pos, radius, groundLayer);
+            Collider[] colliders = Physics.OverlapSphere(pos, Radius, GroundLayer);
 
             return colliders.Length > 0;
         }
 
         void OnDrawGizmos()
         {
-            Helper.DrawWireframeSphere(groundChecker.position, radius, Color.red);
+            Helper.DrawWireframeSphere(GroundChecker.position, Radius, Color.red);
         }
     }
 }
