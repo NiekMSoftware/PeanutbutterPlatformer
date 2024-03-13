@@ -14,15 +14,15 @@ namespace Assets._Scripts.Controllers
         public Player playerEntityData;
 
         [Space]
-        [SerializeField] private Rigidbody _playerBod;
+        [SerializeField] private Rigidbody playerBod;
 
         [Header("Jumping Properties")] 
-        [SerializeField] private float _jumpTimer = .5f;
-        private float _jumpTimerCountdown;
+        [SerializeField] private float jumpTimer = .5f;
+        private float jumpTimerCountdown;
 
         [Header("Gravity Manipulation")]
-        [SerializeField] private float _gravityScale = 0f;
-        [SerializeField] private float _fallingSpeed = 0f;
+        [SerializeField] private float gravityScale = 0f;
+        [SerializeField] private float fallingSpeed = 0f;
 
         [Header("Ground Check")] 
         public LayerMask groundLayer;
@@ -72,7 +72,7 @@ namespace Assets._Scripts.Controllers
         private void Init()
         {
             // gather the components
-            _playerBod = GetComponent<Rigidbody>();
+            playerBod = GetComponent<Rigidbody>();
             GetComponent<CapsuleCollider>();
 
             _speed = playerEntityData.Speed;
@@ -109,9 +109,9 @@ namespace Assets._Scripts.Controllers
         private void Move()
         {
             if (_xMovement != 0 || _zMovement != 0)
-                _playerBod.velocity = new Vector3(_xMovement * _speed, _playerBod.velocity.y, _zMovement * _speed);
+                playerBod.velocity = new Vector3(_xMovement * _speed, playerBod.velocity.y, _zMovement * _speed);
 
-            _playerBod.drag = Drag();
+            playerBod.drag = Drag();
         }
 
         /// <summary>
@@ -123,20 +123,20 @@ namespace Assets._Scripts.Controllers
             if (_pressedJump && IsGrounded())
             {
                 // apply a force upwards.
-                _playerBod.velocity = Vector3.up * _jumpForce;
+                playerBod.velocity = Vector3.up * _jumpForce;
 
                 // set a countdown
                 _isJumping = true;
-                _jumpTimerCountdown = _jumpTimer;
+                jumpTimerCountdown = jumpTimer;
             }
 
             // jump higher upon holding
             if (_holdingJump && _isJumping)
             {
-                if (_jumpTimerCountdown > 0)
+                if (jumpTimerCountdown > 0)
                 {
-                    _playerBod.velocity = new Vector3(_xMovement * _speed, _jumpForce, _zMovement * _speed);
-                    _jumpTimerCountdown -= Time.deltaTime;
+                    playerBod.velocity = new Vector3(_xMovement * _speed, _jumpForce, _zMovement * _speed);
+                    jumpTimerCountdown -= Time.deltaTime;
                 }
                 else
                     _isJumping = false;
@@ -147,20 +147,20 @@ namespace Assets._Scripts.Controllers
                 _isJumping = false;
 
             // ensure the player jump at least higher
-            if (_jumpTimerCountdown > 0)
-                _jumpTimerCountdown -= Time.deltaTime;
+            if (jumpTimerCountdown > 0)
+                jumpTimerCountdown -= Time.deltaTime;
 
             // reset the mass back to 1f
             if (IsGrounded())
-                _playerBod.mass = 1f;
+                playerBod.mass = 1f;
             else // set a new mass of the player
             {
-                _playerBod.mass = _gravityScale;
+                playerBod.mass = gravityScale;
 
                 // clamp the velocity of the player once they fall
-                var velocity = _playerBod.velocity;
-                _playerBod.velocity = 
-                    new Vector3(velocity.x, Mathf.Clamp(velocity.y, -_fallingSpeed, Mathf.Infinity), velocity.z);
+                var velocity = playerBod.velocity;
+                playerBod.velocity = 
+                    new Vector3(velocity.x, Mathf.Clamp(velocity.y, -fallingSpeed, Mathf.Infinity), velocity.z);
             }
         }
 
