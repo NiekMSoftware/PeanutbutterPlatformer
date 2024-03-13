@@ -16,9 +16,9 @@
                 },
                 {
                     "name": "Zoom",
-                    "type": "Button",
+                    "type": "Value",
                     "id": "4d730d8c-a102-4103-a4fa-a6dd3bec9626",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "Axis",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
@@ -50,7 +50,7 @@
                 {
                     "name": "",
                     "id": "08b27ea5-3b12-42ed-a925-ef2e93f2efb5",
-                    "path": "<Mouse>/scroll",
+                    "path": "<Mouse>/scroll/y",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -59,9 +59,9 @@
                     "isPartOfComposite": false
                 },
                 {
-                    "name": "Zoom In [Gamepad]",
-                    "id": "57cb928b-b5df-4839-a9fa-08088a44e564",
-                    "path": "ButtonWithOneModifier",
+                    "name": "Zoom [GamePad]",
+                    "id": "37423d27-725d-4cd3-87bc-6e8bbf2ab5d6",
+                    "path": "1DAxis",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -70,53 +70,20 @@
                     "isPartOfComposite": false
                 },
                 {
-                    "name": "Modifier",
-                    "id": "174b2e06-3478-40f5-b0ac-95d88a6cf1c3",
-                    "path": "<Gamepad>/leftShoulder",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Zoom",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "Button",
-                    "id": "52c1ea1f-ce7b-4c8f-b304-e66474e19694",
-                    "path": "<Gamepad>/rightTrigger",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Zoom",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "Zoom out [Gamepad]",
-                    "id": "901e4b7a-5eac-4a11-acda-77115550b6b2",
-                    "path": "ButtonWithOneModifier",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Zoom",
-                    "isComposite": true,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "Modifier",
-                    "id": "a159429b-7b57-405b-9272-f88e8c439506",
-                    "path": "<Gamepad>/leftShoulder",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Zoom",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "Button",
-                    "id": "7d8f398a-3396-43b7-98a0-996dc48685be",
+                    "name": "negative",
+                    "id": "5697202d-f5c4-457a-8141-b07bfd08e6bb",
                     "path": "<Gamepad>/leftTrigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Zoom",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "positive",
+                    "id": "e34c283b-b551-455a-8199-040c35963115",
+                    "path": "<Gamepad>/rightTrigger",
                     "interactions": "",
                     "processors": "",
                     "groups": "",

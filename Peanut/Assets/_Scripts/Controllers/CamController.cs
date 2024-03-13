@@ -44,7 +44,7 @@ namespace Assets._Scripts.Controllers
 
         private void HandleZoom()
         {
-            float zoomInput = -PlayerInput.actions["Zoom"].ReadValue<Vector2>().y;
+            float zoomInput = -PlayerInput.actions["Zoom"].ReadValue<float>();
 
             // Adjust zoom speed based on scroll direction
             float zoomSpeed = zoomInput > 0 ? ZoomInSpeed : ZoomOutSpeed;
