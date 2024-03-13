@@ -29,6 +29,12 @@ namespace Assets._Scripts.Controllers
         public Transform GroundChecker;
         [Range(0f, 2f)] public float Radius = .5f;
 
+        [Header("Camera Properties")] 
+        public Transform TpCamera;
+
+        public float TurnSmoothTime = 0.1f;
+        private float turnSmoothVelocity;
+
         #region Movement Properties
 
         private float _speed;
@@ -108,9 +114,24 @@ namespace Assets._Scripts.Controllers
         /// </summary>
         private void Move()
         {
+            // check if input has been given, if so move.
             if (_xMovement != 0 || _zMovement != 0)
-                playerBod.velocity = new Vector3(_xMovement * _speed, playerBod.velocity.y, _zMovement * _speed);
+            {
+                // save the move direction
+                Vector3 moveDir = new Vector3(_xMovement, playerBod.velocity.y, _zMovement);
 
+                // rotate player based on direction of input
+                float targetAngle = Mathf.Atan2(moveDir.x, moveDir.z) * Mathf.Rad2Deg + TpCamera.eulerAngles.y;
+                float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle,
+                    ref turnSmoothVelocity, TurnSmoothTime);
+                transform.rotation = Quaternion.Euler(0f, angle, 0f);
+
+                // Move player forward based on cam
+                Vector3 direction = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
+                playerBod.velocity = new Vector3(direction.x * _speed, playerBod.velocity.y, direction.z * _speed);
+            }
+
+            // apply a drag
             playerBod.drag = Drag();
         }
 
@@ -122,8 +143,8 @@ namespace Assets._Scripts.Controllers
             // check if the player is jumping whilst grounded
             if (_pressedJump && IsGrounded())
             {
-                // apply a force upwards.
-                playerBod.velocity = Vector3.up * _jumpForce;
+                Vector3 jumpDirection = Vector3.up * _jumpForce;
+                playerBod.velocity = new Vector3(playerBod.velocity.x, jumpDirection.y, playerBod.velocity.z);
 
                 // set a countdown
                 _isJumping = true;
@@ -135,7 +156,9 @@ namespace Assets._Scripts.Controllers
             {
                 if (jumpTimerCountdown > 0)
                 {
-                    playerBod.velocity = new Vector3(_xMovement * _speed, _jumpForce, _zMovement * _speed);
+                    Vector3 jumpDirection = Vector3.up * _jumpForce;
+                    playerBod.velocity = new Vector3(playerBod.velocity.x, jumpDirection.y, playerBod.velocity.z);
+
                     jumpTimerCountdown -= Time.deltaTime;
                 }
                 else
@@ -159,8 +182,8 @@ namespace Assets._Scripts.Controllers
 
                 // clamp the velocity of the player once they fall
                 var velocity = playerBod.velocity;
-                playerBod.velocity = 
-                    new Vector3(velocity.x, Mathf.Clamp(velocity.y, -fallingSpeed, Mathf.Infinity), velocity.z);
+                playerBod.velocity = new Vector3(velocity.x,
+                    Mathf.Clamp(velocity.y, -fallingSpeed, Mathf.Infinity), velocity.z);
             }
         }
 
