@@ -7,28 +7,32 @@ namespace Assets._Scripts.Controllers
     {
         public PlayerInput PlayerInput;
 
-        public Quaternion SafeRotation { get; set; } = Quaternion.identity;
-
-        public Vector3 BoxSize;
+        [Header("Collision Detection")]
+        [SerializeField] private Vector3 boxSize;
         [SerializeField] private Vector3 originalPosition;
+
+        [Space(10)]
         [Range(1f, 20f)]
         [SerializeField] private float adjustSpeed = 25;
+
+        [Header("Camera Properties")]
         [SerializeField] private Transform child;
-        public Transform Target;
+        [SerializeField] private Transform Target;
+
+        [Space(10)]
         [SerializeField] private LayerMask collisionLayer;
 
         private bool isTouchingGround;
         private bool shouldStop;
         private Vector2 input;
 
-
-        private void Start()
+        void Start()
         {
-            // Initialize camera rotation to the safe quaternion
-            transform.rotation = SafeRotation;
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
         }
 
-        private void Update()
+        void Update()
         {
             input = PlayerInput.actions["Look"].ReadValue<Vector2>();
             // Check if the input is coming from a gamepad
@@ -39,9 +43,12 @@ namespace Assets._Scripts.Controllers
                 // Apply sensitivity multiplier for mouse input
                 input *= 1.0f;
 
-            transform.position = Target.position;
-
             HandleCameraCollision();
+        }
+
+        void LateUpdate()
+        {
+            transform.position = Target.position;
             RotateCamera();
         }
 
@@ -88,7 +95,7 @@ namespace Assets._Scripts.Controllers
                 || CheckCollidersOverlap(Physics.OverlapBox(child.position, transform.localScale / 2));
 
             // Check if any colliders are overlapping with the child's bounding box
-            shouldStop = CheckCollidersOverlap(Physics.OverlapBox(child.position, BoxSize, Quaternion.identity, collisionLayer));
+            shouldStop = CheckCollidersOverlap(Physics.OverlapBox(child.position, boxSize, Quaternion.identity, collisionLayer));
         }
 
         private bool CheckCollidersOverlap(Collider[] colliders)
