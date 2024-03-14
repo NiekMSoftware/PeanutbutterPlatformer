@@ -5,26 +5,26 @@ namespace Assets._Scripts
     public static class Helper
     {
         /// <summary>
-        /// Draws a Ray from the origin position.
+        ///  Returns a Vector3 with a decreased distance based on start, end and speed with delta time.
         /// </summary>
-        /// <param name="origin">Original position from where the ray starts.</param>
-        /// <param name="distance">The distance from origin to point.</param>
-        /// <param name="duration">The duration of how long it would be rendered in the scene view.</param>
-        public static void DrawRayDown(Vector3 origin, float distance, float duration)
+        /// <param name="start">Where you start</param>
+        /// <param name="end">Where you want to end up</param>
+        /// <param name="speed">How fast you want to change the Vector3</param>
+        /// <returns></returns>
+        public static Vector3 GoToDelta(Vector3 start, Vector3 end, float speed = 1)
         {
-            Debug.DrawRay(origin, new Vector3(0, -distance), Color.red, duration);
-        }
+            if (start.x < end.x) { start.x += speed * Time.deltaTime; }
+            else if (start.x > end.x) { start.x -= speed * Time.deltaTime; }
 
-        /// <summary>
-        /// Draws a wireframe sphere at the specified position with the given radius and color using Gizmos.
-        /// </summary>
-        /// <param name="center">The center of the sphere.</param>
-        /// <param name="radius">The radius of the sphere.</param>
-        /// <param name="color">The color of the sphere.</param>
-        public static void DrawWireframeSphere(Vector3 center, float radius, Color color)
-        {
-            Gizmos.color = color;
-            Gizmos.DrawWireSphere(center, radius);
+            if (start.y < end.y) { start.y += speed * Time.deltaTime; }
+            else if (start.y > end.y) { start.y -= speed * Time.deltaTime; }
+
+            if (start.z < end.z) { start.z += speed * Time.deltaTime; }
+            else if (start.z > end.z) { start.z -= speed * Time.deltaTime; }
+
+            if (Vector3.Distance(start, end) < 0.5f) { start = end; }
+
+            return start;
         }
     }
 }

@@ -209,7 +209,7 @@ namespace Assets._Scripts.Controllers
 
         void OnDrawGizmos()
         {
-            Helper.DrawWireframeSphere(GroundChecker.position, Radius, Color.red);
+            DebugHelper.DrawWireframeSphere(GroundChecker.position, Radius, Color.red);
         }
     }
 }

@@ -38,6 +38,17 @@ namespace Assets._Scripts.Controllers
 
         void Update()
         {
+            // Read the current look input from the PlayerInput component
+            lookInput = PlayerInput.actions["Look"].ReadValue<Vector2>();
+
+            // Check if the input is coming from a gamepad
+            if (IsGamepadControlScheme(PlayerInput.currentControlScheme))
+                // Apply sensitivity multiplier for gamepad input
+                lookInput *= 6.0f;
+            else
+                // Apply sensitivity multiplier for mouse input
+                lookInput *= 1.0f;
+
             HandleZoom();
         }
 
@@ -56,42 +67,29 @@ namespace Assets._Scripts.Controllers
         /// </summary>
         private Vector3 GetDesiredPosition()
         {
-            // Read the current look input from the PlayerInput component
-            lookInput = PlayerInput.actions["Look"].ReadValue<Vector2>();
-
             // Calculate rotation based on input
             float horizontalLook = lookInput.x * Sensitivity * Time.deltaTime;
             float verticalLook = lookInput.y * Sensitivity * Time.deltaTime;
 
             // Apply rotation to the camera around the target
-            Quaternion rotation = Quaternion.Euler(verticalLook, horizontalLook, 0f);
+            Quaternion rotation = Quaternion.Euler(transform.eulerAngles.x - verticalLook, transform.eulerAngles.y + horizontalLook, 0f);
             desiredPosition = rotation * desiredPosition;
 
-            // Get the vector from the camera to the player
-            Vector3 toPlayer = Target.position - transform.position;
-
-            // Calculate the angle between the camera's forward vector and toPlayer
-            float angle = Vector3.Angle(transform.forward, toPlayer);
-
-            // If the angle exceeds a threshold, prevent further rotation in that direction
-            if (angle > 90f)
+            // Adjust the angleX after rotation calculation
+            float angleX = transform.localEulerAngles.x;
+            if (angleX > 256)
             {
-                horizontalLook = 0f;
-                verticalLook = 0f;
+                angleX -= 360;
             }
 
-            // Apply the modified rotation
-            rotation = Quaternion.Euler(verticalLook, horizontalLook, 0f);
-            desiredPosition = rotation * desiredPosition;
+            // Apply the corrected vertical rotation directly before rotation calculation
+            Quaternion adjustedRotation = Quaternion.Euler(Mathf.Clamp(angleX - verticalLook, -80, 80), transform.eulerAngles.y + horizontalLook, 0f);
 
-            Vector3 position = Target.position + desiredPosition.normalized * Distance;
+            Vector3 position = Target.position + (adjustedRotation * desiredPosition.normalized * Distance);
 
             // Handle collision detection
-            RaycastHit hit;
-            if (Physics.Linecast(Target.position, position, out hit, CollisionLayers))
-            {
+            if (Physics.Linecast(Target.position, position, out var hit, CollisionLayers))
                 position = hit.point;
-            }
 
             return position;
         }
@@ -115,6 +113,23 @@ namespace Assets._Scripts.Controllers
 
             // Smoothly interpolate zoom level towards the target
             Distance = Mathf.Lerp(Distance, targetDistance, SmoothTime);
+        }
+
+        private bool IsGamepadControlScheme(string controlScheme)
+        {
+            // Define your control scheme names for gamepads here
+            // You may need to adjust these based on your actual control schemes
+            string[] gamepadControlSchemes = { "Gamepad", "Gamepad&Mouse" };
+
+            foreach (string scheme in gamepadControlSchemes)
+            {
+                if (controlScheme.Equals(scheme))
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 }
