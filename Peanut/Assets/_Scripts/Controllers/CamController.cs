@@ -35,6 +35,7 @@ namespace Assets._Scripts.Controllers
         void Update()
         {
             input = PlayerInput.actions["Look"].ReadValue<Vector2>();
+
             // Check if the input is coming from a gamepad
             if (IsGamepadControlScheme(PlayerInput.currentControlScheme))
                 // Apply sensitivity multiplier for gamepad input
@@ -90,9 +91,19 @@ namespace Assets._Scripts.Controllers
 
         private void CheckCameraCollision()
         {
-            // Check if the camera or its child is colliding with objects
-            isTouchingGround = Physics.Linecast(child.position, transform.position, collisionLayer) || Physics.Linecast(transform.position, child.position, collisionLayer) 
-                || CheckCollidersOverlap(Physics.OverlapBox(child.position, transform.localScale / 2));
+            RaycastHit hit;
+
+            // Raycast from the child's position towards the camera's position
+            if (Physics.Raycast(child.position, transform.position - child.position, out hit,
+                    Vector3.Distance(child.position, transform.position), collisionLayer))
+            {
+                isTouchingGround = true;
+
+                // Adjust camera position based on the hit point
+                child.position = hit.point;
+            }
+            else
+                isTouchingGround = false;
 
             // Check if any colliders are overlapping with the child's bounding box
             shouldStop = CheckCollidersOverlap(Physics.OverlapBox(child.position, boxSize, Quaternion.identity, collisionLayer));
@@ -100,9 +111,9 @@ namespace Assets._Scripts.Controllers
 
         private bool CheckCollidersOverlap(Collider[] colliders)
         {
-            foreach (var collider in colliders)
+            foreach (var col in colliders)
             {
-                if (collider != null)
+                if (col != null)
                     return true;
             }
             return false;
@@ -110,8 +121,6 @@ namespace Assets._Scripts.Controllers
 
         private bool IsGamepadControlScheme(string controlScheme)
         {
-            // Define your control scheme names for gamepads here
-            // You may need to adjust these based on your actual control schemes
             string[] gamepadControlSchemes = { "Gamepad", "Gamepad&Mouse" };
 
             foreach (string scheme in gamepadControlSchemes)
