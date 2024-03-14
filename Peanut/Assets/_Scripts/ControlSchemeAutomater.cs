@@ -38,13 +38,11 @@ namespace Assets._Scripts
         {
             if (IsGamepadConnected())
             {
-                Debug.Log("YIPPEE");
                 // Switch to gamepad control scheme
                 PlayerInput.SwitchCurrentControlScheme(GamepadScheme);
             }
             else
             {
-                Debug.Log("OUWWW");
                 // Switch to keyboard and mouse control scheme
                 PlayerInput.SwitchCurrentControlScheme(KeyboardAndMouseScheme);
             }
