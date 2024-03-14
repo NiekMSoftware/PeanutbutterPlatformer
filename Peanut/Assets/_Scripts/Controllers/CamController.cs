@@ -3,116 +3,102 @@ using UnityEngine.InputSystem;
 
 namespace Assets._Scripts.Controllers
 {
-    using UnityEngine;
-    using UnityEngine.InputSystem;
-
     public class CamController : MonoBehaviour
     {
         public PlayerInput PlayerInput;
-        [Space(10)]
+
+        public Quaternion SafeRotation { get; set; } = Quaternion.identity;
+
+        public Vector3 BoxSize;
+        [SerializeField] private Vector3 originalPosition;
+        [Range(1f, 20f)]
+        [SerializeField] private float adjustSpeed = 25;
+        [SerializeField] private Transform child;
         public Transform Target;
-        [Range(10f, 100f)]
-        public float Sensitivity = 5f;
+        [SerializeField] private LayerMask collisionLayer;
 
-        [Header("Distance Limitations")]
-        public float Distance = 5f;
-        public float MinDistance = 2f;
-        public float MaxDistance = 10f;
+        private bool isTouchingGround;
+        private bool shouldStop;
+        private Vector2 input;
 
-        [Header("Zooming Properties")]
-        public float ZoomInSpeed = 0.1f;
-        public float ZoomOutSpeed = 0.5f;
-        public float SmoothTime = 0.1f;
 
-        [Space(10)]
-        public LayerMask CollisionLayers;
-
-        private Vector2 lookInput = Vector2.zero;
-        private Vector3 desiredPosition;
-
-        void Start()
+        private void Start()
         {
-            Cursor.lockState = CursorLockMode.Locked;
-            desiredPosition = transform.position - Target.position;
+            // Initialize camera rotation to the safe quaternion
+            transform.rotation = SafeRotation;
         }
 
-        void Update()
+        private void Update()
         {
-            // Read the current look input from the PlayerInput component
-            lookInput = PlayerInput.actions["Look"].ReadValue<Vector2>();
-
+            input = PlayerInput.actions["Look"].ReadValue<Vector2>();
             // Check if the input is coming from a gamepad
             if (IsGamepadControlScheme(PlayerInput.currentControlScheme))
                 // Apply sensitivity multiplier for gamepad input
-                lookInput *= 6.0f;
+                input *= 6.0f;
             else
                 // Apply sensitivity multiplier for mouse input
-                lookInput *= 1.0f;
+                input *= 1.0f;
 
-            HandleZoom();
+            transform.position = Target.position;
+
+            HandleCameraCollision();
+            RotateCamera();
         }
 
-        void LateUpdate()
+        void FixedUpdate()
         {
-            // make sure the camera follows the player smoothly
-            transform.position = Vector3.Lerp(transform.position, GetDesiredPosition(), 
-                Time.deltaTime * Sensitivity);
+            CheckCameraCollision();
+        }
 
-            // make the camera look at the target
+        private void RotateCamera()
+        {
+            float yInput = -input.y * adjustSpeed * Time.deltaTime;
+            float xInput = input.x * adjustSpeed * Time.deltaTime;
+
+            float angleX = transform.eulerAngles.x > 256 ? transform.eulerAngles.x - 360 : transform.eulerAngles.x;
+            float currentRotationX = Mathf.Clamp(angleX + yInput, -60, 60);
+
+            float yRotation = transform.eulerAngles.y + xInput;
+
+            transform.rotation = Quaternion.Euler(currentRotationX, yRotation, transform.rotation.z);
+
+            // look at the player
             transform.LookAt(Target);
         }
 
-        /// <summary>
-        /// Handles the rotation and movement of the third person camera.
-        /// </summary>
-        private Vector3 GetDesiredPosition()
+        private void HandleCameraCollision()
         {
-            // Calculate rotation based on input
-            float horizontalLook = lookInput.x * Sensitivity * Time.deltaTime;
-            float verticalLook = lookInput.y * Sensitivity * Time.deltaTime;
-
-            // Apply rotation to the camera around the target
-            Quaternion rotation = Quaternion.Euler(transform.eulerAngles.x - verticalLook, transform.eulerAngles.y + horizontalLook, 0f);
-            desiredPosition = rotation * desiredPosition;
-
-            // Adjust the angleX after rotation calculation
-            float angleX = transform.localEulerAngles.x;
-            if (angleX > 256)
+            if (isTouchingGround)
             {
-                angleX -= 360;
+                // Adjust the child's position to avoid colliding with the ground
+                child.localPosition = Vector3.MoveTowards(child.localPosition,
+                    new Vector3(child.localPosition.x, child.localPosition.y, transform.position.z), adjustSpeed * Time.deltaTime);
             }
-
-            // Apply the corrected vertical rotation directly before rotation calculation
-            Quaternion adjustedRotation = Quaternion.Euler(Mathf.Clamp(angleX - verticalLook, -80, 80), transform.eulerAngles.y + horizontalLook, 0f);
-
-            Vector3 position = Target.position + (adjustedRotation * desiredPosition.normalized * Distance);
-
-            // Handle collision detection
-            if (Physics.Linecast(Target.position, position, out var hit, CollisionLayers))
-                position = hit.point;
-
-            return position;
+            else if (!isTouchingGround && !shouldStop)
+            {
+                // Move the child back to its original position if not colliding with the ground and not stopped
+                child.localPosition = Vector3.MoveTowards(child.localPosition, originalPosition, adjustSpeed * Time.deltaTime);
+            }
         }
 
-        /// <summary>
-        /// Will handle the zoom of the camera, this basically just moves the player camera closer to the player.
-        /// </summary>
-        private void HandleZoom()
+        private void CheckCameraCollision()
         {
-            float zoomInput = -PlayerInput.actions["Zoom"].ReadValue<float>();
+            // Check if the camera or its child is colliding with objects
+            isTouchingGround = Physics.Linecast(child.position, transform.position, collisionLayer) || Physics.Linecast(transform.position, child.position, collisionLayer) 
+                || CheckCollidersOverlap(Physics.OverlapBox(child.position, transform.localScale / 2));
 
-            // Adjust zoom speed based on scroll direction
-            float zoomSpeed = zoomInput > 0 ? ZoomInSpeed : ZoomOutSpeed;
+            // Check if any colliders are overlapping with the child's bounding box
+            shouldStop = CheckCollidersOverlap(Physics.OverlapBox(child.position, BoxSize, Quaternion.identity, collisionLayer));
+        }
 
-            // Scale the scroll input by the appropriate zoom speed
-            zoomInput *= zoomSpeed;
-
-            // Calculate target zoom level based on scaled scroll input
-            float targetDistance = Distance + zoomInput;
-            targetDistance = Mathf.Clamp(targetDistance, MinDistance, MaxDistance);
-
-            // Smoothly interpolate zoom level towards the target
-            Distance = Mathf.Lerp(Distance, targetDistance, SmoothTime);
+        private bool CheckCollidersOverlap(Collider[] colliders)
+        {
+            foreach (var collider in colliders)
+            {
+                if (collider != null)
+                    return true;
+            }
+            return false;
         }
 
         private bool IsGamepadControlScheme(string controlScheme)
