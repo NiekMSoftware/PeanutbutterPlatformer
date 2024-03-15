@@ -192,4 +192,4 @@ MonoBehaviour:
   Target: {fileID: 0}
   collisionLayer:
     serializedVersion: 2
-    m_Bits: 25
+    m_Bits: 63

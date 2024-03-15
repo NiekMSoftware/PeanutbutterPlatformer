@@ -1,6 +1,9 @@
+// Credits to: Mike Oomen with the base of the camera controller.
+// Further adjustments like PlayerInput and player actions by me, therefore credit me.
+// Copyright Niek Melet
+
 using UnityEngine;
 using UnityEngine.InputSystem;
-using static UnityEditor.Experimental.GraphView.GraphView;
 
 namespace Assets._Scripts.Controllers
 {
@@ -10,7 +13,7 @@ namespace Assets._Scripts.Controllers
         public PlayerInput PlayerInput;
 
         [Header("Collision Detection")]
-        [SerializeField] private float boxSize;
+        [SerializeField] private float boxSize = 0;
         [SerializeField] private Vector3 originalPosition;
 
         [Space(10)]
@@ -30,7 +33,6 @@ namespace Assets._Scripts.Controllers
         [Space(10)]
         [SerializeField] private LayerMask collisionLayer;
 
-        private bool isTouchingGround;
         private bool isSlow;
         private bool shouldStop;
         private Vector2 input;
@@ -43,16 +45,7 @@ namespace Assets._Scripts.Controllers
 
         void Update()
         {
-            input = PlayerInput.actions["Look"].ReadValue<Vector2>();
-
-            // Check if the input is coming from a gamepad
-            if (IsGamepadControlScheme(PlayerInput.currentControlScheme))
-                // Apply sensitivity multiplier for gamepad input
-                input *= 6.0f;
-            else
-                // Apply sensitivity multiplier for mouse input
-                input *= 1.0f;
-
+            HandleInput();
             HandleCameraCollision();
         }
 
@@ -67,6 +60,25 @@ namespace Assets._Scripts.Controllers
             CheckCameraCollision();
         }
 
+        /// <summary>
+        /// Handles player input for camera movement.
+        /// </summary>
+        private void HandleInput()
+        {
+            input = PlayerInput.actions["Look"].ReadValue<Vector2>();
+
+            // Check if the input is coming from a gamepad
+            if (IsGamepadControlScheme(PlayerInput.currentControlScheme))
+                // Apply sensitivity multiplier for gamepad input
+                input *= 6.0f;
+            else
+                // Apply sensitivity multiplier for mouse input
+                input *= 1.0f;
+        }
+
+        /// <summary>
+        /// Rotates the camera based on player input.
+        /// </summary>
         private void RotateCamera()
         {
             float yInput = -input.y * adjustSpeed * Time.deltaTime;
@@ -83,6 +95,9 @@ namespace Assets._Scripts.Controllers
             transform.LookAt(Target);
         }
 
+        /// <summary>
+        /// Handles camera collision detection and adjustment.
+        /// </summary>
         private void HandleCameraCollision()
         {
             float speed = isSlow ? slowAdjustmentSpeed : adjustSpeed;
@@ -101,6 +116,9 @@ namespace Assets._Scripts.Controllers
             }
         }
 
+        /// <summary>
+        /// Checks for camera collision with objects in its path.
+        /// </summary>
         private void CheckCameraCollision()
         {
             shouldStop = CheckCollidersOverlap(Physics.OverlapBox(child.position,
@@ -109,9 +127,9 @@ namespace Assets._Scripts.Controllers
         }
 
         /// <summary>
-        /// Checks if something is in between the player and the camera.
+        /// Checks if something is obstructing the camera's view.
         /// </summary>
-        /// <returns>Returns true if something is in between the player and the camera else false.</returns>
+        /// <returns>Returns true if obstructed, false otherwise.</returns>
         bool IsColliding()
         {
             return Physics.Raycast(child.position, transform.position, Vector3.Distance(child.position, transform.position), collisionLayer) ||
@@ -119,6 +137,11 @@ namespace Assets._Scripts.Controllers
                    CheckCollidersOverlap(Physics.OverlapBox(child.position, transform.localScale / 2, Quaternion.identity, collisionLayer));
         }
 
+        /// <summary>
+        /// Checks if any colliders overlap with the camera.
+        /// </summary>
+        /// <param name="colliders">An array of colliders to check for overlap.</param>
+        /// <returns>Returns true if colliders overlap, false otherwise.</returns>
         private bool CheckCollidersOverlap(Collider[] colliders)
         {
             foreach (var col in colliders)
@@ -129,6 +152,11 @@ namespace Assets._Scripts.Controllers
             return false;
         }
 
+        /// <summary>
+        /// Checks if the current control scheme is a gamepad.
+        /// </summary>
+        /// <param name="controlScheme">The current control scheme to check.</param>
+        /// <returns>Returns true if the control scheme is a gamepad, false otherwise.</returns>
         private bool IsGamepadControlScheme(string controlScheme)
         {
             string[] gamepadControlSchemes = { "Gamepad", "Gamepad&Mouse" };

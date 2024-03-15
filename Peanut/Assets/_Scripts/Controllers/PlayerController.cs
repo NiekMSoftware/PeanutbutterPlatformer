@@ -1,4 +1,5 @@
 using Assets._Scripts.Entities;
+using Assets._Scripts.Interfaces;
 using UnityEngine;
 
 namespace Assets._Scripts.Controllers
@@ -36,6 +37,9 @@ namespace Assets._Scripts.Controllers
         private float turnSmoothVelocity;
 
         #region Movement Properties
+
+        private float maxHealth;
+        public float Health;
 
         private float _speed;
         private float _drag;
@@ -84,6 +88,9 @@ namespace Assets._Scripts.Controllers
             _speed = PlayerEntityData.Speed;
             _drag = PlayerEntityData.DragAmount;
             _jumpForce = PlayerEntityData.JumpForce;
+
+            maxHealth = PlayerEntityData.MaxHealth;
+            Health = maxHealth;
         }
 
         /// <summary>

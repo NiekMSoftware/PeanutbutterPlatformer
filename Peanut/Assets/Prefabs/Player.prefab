@@ -98,7 +98,7 @@ GameObject:
   - component: {fileID: 8956267853573733486}
   m_Layer: 6
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -192,7 +192,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   GroundChecker: {fileID: 59209336652906956}
-  Radius: 0.5
+  Radius: 0.3
   TpCamera: {fileID: 0}
   TurnSmoothTime: 0.1
 --- !u!114 &8956267853573733486
