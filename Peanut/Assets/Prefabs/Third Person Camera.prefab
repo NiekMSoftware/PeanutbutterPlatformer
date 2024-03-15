@@ -44,7 +44,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 1}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -183,11 +183,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PlayerInput: {fileID: 0}
-  boxSize: {x: 1, y: 1, z: 1}
+  boxSize: 1
   originalPosition: {x: 0, y: 1, z: -3.5}
   adjustSpeed: 20
+  slowAdjustmentSpeed: 3
+  slowRange: 5
   child: {fileID: 4666358854956412218}
   Target: {fileID: 0}
   collisionLayer:
     serializedVersion: 2
-    m_Bits: 63
+    m_Bits: 25

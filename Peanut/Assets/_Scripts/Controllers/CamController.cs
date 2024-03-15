@@ -1,19 +1,27 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
 namespace Assets._Scripts.Controllers
 {
     public class CamController : MonoBehaviour
     {
+        [Tooltip("Make sure to insert the PlayerInput component of the player.")]
         public PlayerInput PlayerInput;
 
         [Header("Collision Detection")]
-        [SerializeField] private Vector3 boxSize;
+        [SerializeField] private float boxSize;
         [SerializeField] private Vector3 originalPosition;
 
         [Space(10)]
         [Range(1f, 20f)]
         [SerializeField] private float adjustSpeed = 25;
+
+        [Range(1f, 10f)] 
+        [SerializeField] private float slowAdjustmentSpeed;
+
+        [Range(1f, 5f)]
+        [SerializeField] private float slowRange;
 
         [Header("Camera Properties")]
         [SerializeField] private Transform child;
@@ -23,6 +31,7 @@ namespace Assets._Scripts.Controllers
         [SerializeField] private LayerMask collisionLayer;
 
         private bool isTouchingGround;
+        private bool isSlow;
         private bool shouldStop;
         private Vector2 input;
 
@@ -76,37 +85,38 @@ namespace Assets._Scripts.Controllers
 
         private void HandleCameraCollision()
         {
-            if (isTouchingGround)
+            float speed = isSlow ? slowAdjustmentSpeed : adjustSpeed;
+
+            if (IsColliding())
             {
                 // Adjust the child's position to avoid colliding with the ground
-                child.localPosition = Vector3.MoveTowards(child.localPosition,
-                    new Vector3(child.localPosition.x, child.localPosition.y, transform.position.z), adjustSpeed * Time.deltaTime);
+                child.localPosition = 
+                    Vector3.MoveTowards(child.localPosition, new Vector3(child.localPosition.x, child.localPosition.y, transform.localPosition.z),
+                        speed * Time.deltaTime);
             }
-            else if (!isTouchingGround && !shouldStop)
+            else if (!IsColliding() && !shouldStop)
             {
                 // Move the child back to its original position if not colliding with the ground and not stopped
-                child.localPosition = Vector3.MoveTowards(child.localPosition, originalPosition, adjustSpeed * Time.deltaTime);
+                child.localPosition = Vector3.MoveTowards(child.localPosition, originalPosition, speed * Time.deltaTime);
             }
         }
 
         private void CheckCameraCollision()
         {
-            RaycastHit hit;
+            shouldStop = CheckCollidersOverlap(Physics.OverlapBox(child.position,
+                new Vector3(boxSize, boxSize, boxSize), Quaternion.identity, collisionLayer));
+            isSlow = Physics.Raycast(child.position, -child.forward, slowRange, collisionLayer);
+        }
 
-            // Raycast from the child's position towards the camera's position
-            if (Physics.Raycast(child.position, transform.position - child.position, out hit,
-                    Vector3.Distance(child.position, transform.position), collisionLayer))
-            {
-                isTouchingGround = true;
-
-                // Adjust camera position based on the hit point
-                child.position = hit.point;
-            }
-            else
-                isTouchingGround = false;
-
-            // Check if any colliders are overlapping with the child's bounding box
-            shouldStop = CheckCollidersOverlap(Physics.OverlapBox(child.position, boxSize, Quaternion.identity, collisionLayer));
+        /// <summary>
+        /// Checks if something is in between the player and the camera.
+        /// </summary>
+        /// <returns>Returns true if something is in between the player and the camera else false.</returns>
+        bool IsColliding()
+        {
+            return Physics.Raycast(child.position, transform.position, Vector3.Distance(child.position, transform.position), collisionLayer) ||
+                   Physics.Raycast(transform.position, child.position, Vector3.Distance(child.position, transform.position), collisionLayer) ||
+                   CheckCollidersOverlap(Physics.OverlapBox(child.position, transform.localScale / 2, Quaternion.identity, collisionLayer));
         }
 
         private bool CheckCollidersOverlap(Collider[] colliders)

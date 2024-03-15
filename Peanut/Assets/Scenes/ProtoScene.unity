@@ -957,18 +957,8 @@ PrefabInstance:
       objectReference: {fileID: 718129486}
     - target: {fileID: 7038658618533388106, guid: 2a157a9eda88fbe45bddcde8a8c7e952,
         type: 3}
-      propertyPath: boxSize.x
-      value: 0.8
-      objectReference: {fileID: 0}
-    - target: {fileID: 7038658618533388106, guid: 2a157a9eda88fbe45bddcde8a8c7e952,
-        type: 3}
-      propertyPath: boxSize.y
-      value: 0.8
-      objectReference: {fileID: 0}
-    - target: {fileID: 7038658618533388106, guid: 2a157a9eda88fbe45bddcde8a8c7e952,
-        type: 3}
-      propertyPath: boxSize.z
-      value: 0.8
+      propertyPath: boxSize
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7038658618533388106, guid: 2a157a9eda88fbe45bddcde8a8c7e952,
         type: 3}
@@ -977,8 +967,28 @@ PrefabInstance:
       objectReference: {fileID: 718129492}
     - target: {fileID: 7038658618533388106, guid: 2a157a9eda88fbe45bddcde8a8c7e952,
         type: 3}
-      propertyPath: collisionLayer.m_Bits
-      value: 25
+      propertyPath: adjustSpeed
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 8916769847852731346, guid: 2a157a9eda88fbe45bddcde8a8c7e952,
+        type: 3}
+      propertyPath: m_BackGroundColor.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8916769847852731346, guid: 2a157a9eda88fbe45bddcde8a8c7e952,
+        type: 3}
+      propertyPath: m_BackGroundColor.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8916769847852731346, guid: 2a157a9eda88fbe45bddcde8a8c7e952,
+        type: 3}
+      propertyPath: m_BackGroundColor.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8916769847852731346, guid: 2a157a9eda88fbe45bddcde8a8c7e952,
+        type: 3}
+      propertyPath: m_BackGroundColor.r
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
