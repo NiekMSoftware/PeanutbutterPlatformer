@@ -10,7 +10,7 @@ namespace _Scripts.Controllers
     public class CamController : MonoBehaviour
     {
         [Tooltip("Make sure to insert the Player component of the player.")]
-        public Player PlayerInput;
+        public Player.Player PlayerInput;
 
         [Header("Collision Detection")]
         [SerializeField] private float boxSize = 0;

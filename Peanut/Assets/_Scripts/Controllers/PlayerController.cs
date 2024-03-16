@@ -1,3 +1,4 @@
+using _Scripts.Player;
 using Assets._Scripts;
 using UnityEngine;
 
@@ -32,7 +33,7 @@ namespace _Scripts.Controllers
         private float turnSmoothVelocity;
         
         // player class
-        private Player player;
+        private Player.Player player;
 
         #region Movement Properties
         
@@ -78,7 +79,7 @@ namespace _Scripts.Controllers
         {
             // gather the components
             playerBod = GetComponent<Rigidbody>();
-            player = GetComponent<Player>();
+            player = GetComponent<Player.Player>();
             GetComponent<CapsuleCollider>();
             
             // initialize the variables

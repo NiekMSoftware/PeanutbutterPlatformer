@@ -2,9 +2,13 @@
 
 namespace _Scripts.Entities
 {
-    [CreateAssetMenu(fileName = "EnemyData", menuName = "Entities/Enemies")]
+    [CreateAssetMenu(fileName = "EnemyData", menuName = "Entities/Enemies/Basic")]
     public class EnemyData : Entity
     {
+        [Header("Enemy Data Properties")]
+        [Range(1f, 20f)]
+        public float Speed;
+        
         public override float DealDamage()
         {
             float damage = Damage;
@@ -17,9 +21,11 @@ namespace _Scripts.Entities
             Health -= damage;
         }
 
-        public override bool HasDied()
+        public override void Attack()
         {
-            return Health <= 0;
+            Debug.Log("Commencing Attack Sequence");
         }
+
+        public override bool HasDied() => Health <= 0;
     }
 }

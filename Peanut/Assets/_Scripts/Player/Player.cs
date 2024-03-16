@@ -3,7 +3,7 @@ using _Scripts.Entities;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace _Scripts
+namespace _Scripts.Player
 {
     /// <summary>
     /// The class that would contain all the important Player matters.

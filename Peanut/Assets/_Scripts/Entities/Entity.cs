@@ -30,6 +30,11 @@ namespace _Scripts.Entities
             throw new System.NotImplementedException();
         }
 
+        public virtual void Attack()
+        {
+            throw new System.NotImplementedException();
+        }
+
         public virtual bool HasDied()
         {
             throw new System.NotImplementedException();

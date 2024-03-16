@@ -13,6 +13,8 @@
         /// </summary>
         /// <returns>The amount of damage that will be dealt to it.</returns>
         float DealDamage();
+        
+        public void Attack();
 
         /// <summary>
         /// Will check if the player has died. If so, it will "kill" the entity.
