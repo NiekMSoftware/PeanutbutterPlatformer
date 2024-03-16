@@ -1,6 +1,7 @@
 ﻿using _Scripts.Controllers;
 using _Scripts.Entities;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace _Scripts
 {
@@ -15,7 +16,19 @@ namespace _Scripts
     {
         [Header("Player Specific Data")]
         public PlayerData PlayerEntity;
-        [SerializeField] private PlayerController _controller;
+        public PlayerInput PlayerInputSystem;
+        private PlayerController _controller;
+
+        #region Player Input
+        
+        [HideInInspector] public float XMovement;
+        [HideInInspector] public float ZMovement;
+        [HideInInspector] public bool PressedJump;
+        [HideInInspector] public bool HoldingJump;
+        [HideInInspector] public bool ReleasedJump;
+        [HideInInspector] public Vector2 LookInput;
+
+        #endregion
 
         /// <summary>
         /// Initializes all the data from the player.
@@ -35,6 +48,7 @@ namespace _Scripts
 
         void Update()
         {
+            GatherInput();
             ControlPlayer();
         }
 
@@ -57,6 +71,18 @@ namespace _Scripts
                 Debug.LogWarning("Player can not do anything anymore!" +
                                  "\nThey have died!");
             }
+        }
+
+        private void GatherInput()
+        {
+            XMovement = PlayerInputSystem.actions["Move"].ReadValue<Vector2>().x;
+            ZMovement = PlayerInputSystem.actions["Move"].ReadValue<Vector2>().y;
+
+            PressedJump = PlayerInputSystem.actions["Jump"].WasPressedThisFrame();
+            HoldingJump = PlayerInputSystem.actions["Jump"].IsPressed();
+            ReleasedJump = PlayerInputSystem.actions["Jump"].WasReleasedThisFrame();
+
+            LookInput = PlayerInputSystem.actions["Look"].ReadValue<Vector2>();
         }
     }
 }

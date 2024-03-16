@@ -12,9 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bdbf2653c9a14dcf962fb6b144947962, type: 3}
   m_Name: PlayerData
   m_EditorClassIdentifier: 
-  Health: 0
   MaxHealth: 100
+  Health: 100
   Damage: 0
   EntityAnimator: {fileID: 0}
+  EntityParticles: {fileID: 0}
   SfxSource: {fileID: 0}
   SfxClip: {fileID: 0}
+  Speed: 3
+  Drag: 8
+  JumpForce: 5

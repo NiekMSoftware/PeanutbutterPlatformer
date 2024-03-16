@@ -6,6 +6,12 @@
   <component name="ChangeListManager">
     <list default="true" id="c35de67d-46bf-4188-80be-d3343c2c295d" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Peanut/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Peanut/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/PlayerControls.inputactions" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/PlayerControls.inputactions" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Player.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Player.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/ProtoScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/ProtoScene.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/_Data/PlayerData.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Data/PlayerData.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/_Scripts/Controllers/CamController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Scripts/Controllers/CamController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/_Scripts/Controllers/PlayerController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Scripts/Controllers/PlayerController.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/_Scripts/Player.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Scripts/Player.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -96,7 +102,7 @@
       <option name="presentableId" value="Default" />
       <updated>1710576797119</updated>
       <workItem from="1710576801065" duration="18000" />
-      <workItem from="1710576830129" duration="6876000" />
+      <workItem from="1710576830129" duration="10704000" />
     </task>
     <servers />
   </component>

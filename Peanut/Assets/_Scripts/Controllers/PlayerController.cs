@@ -92,12 +92,12 @@ namespace _Scripts.Controllers
         /// </summary>
         private void GetInput()
         {
-            _xMovement = Input.GetAxisRaw("Horizontal");
-            _zMovement = Input.GetAxisRaw("Vertical");
+            _xMovement = player.XMovement;
+            _zMovement = player.ZMovement;
 
-            _pressedJump = Input.GetButtonDown("Jump");
-            _holdingJump = Input.GetButton("Jump");
-            _releasedJump = Input.GetButtonUp("Jump");
+            _pressedJump = player.PressedJump;
+            _holdingJump = player.HoldingJump;
+            _releasedJump = player.ReleasedJump;
         }
 
         /// <summary>

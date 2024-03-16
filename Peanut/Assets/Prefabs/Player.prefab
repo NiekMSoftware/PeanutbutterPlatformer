@@ -185,7 +185,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PlayerEntity: {fileID: 11400000, guid: a3d608e2bf7ddf241a271d72ab623613, type: 2}
-  _controller: {fileID: 0}
+  PlayerInputSystem: {fileID: 8956267853573733486}
 --- !u!114 &7412193491239734271
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -236,7 +236,7 @@ MonoBehaviour:
       m_Calls: []
   m_ActionEvents: []
   m_NeverAutoSwitchControlSchemes: 0
-  m_DefaultControlScheme: 
+  m_DefaultControlScheme: Gamepad
   m_DefaultActionMap: Main
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}

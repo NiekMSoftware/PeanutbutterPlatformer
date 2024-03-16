@@ -5,12 +5,12 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace Assets._Scripts.Controllers
+namespace _Scripts.Controllers
 {
     public class CamController : MonoBehaviour
     {
-        [Tooltip("Make sure to insert the PlayerInput component of the player.")]
-        public PlayerInput PlayerInput;
+        [Tooltip("Make sure to insert the Player component of the player.")]
+        public Player PlayerInput;
 
         [Header("Collision Detection")]
         [SerializeField] private float boxSize = 0;
@@ -65,10 +65,10 @@ namespace Assets._Scripts.Controllers
         /// </summary>
         private void HandleInput()
         {
-            input = PlayerInput.actions["Look"].ReadValue<Vector2>();
+            input = PlayerInput.LookInput;
 
             // Check if the input is coming from a gamepad
-            if (IsGamepadControlScheme(PlayerInput.currentControlScheme))
+            if (IsGamepadControlScheme(PlayerInput.PlayerInputSystem.currentControlScheme))
                 // Apply sensitivity multiplier for gamepad input
                 input *= 6.0f;
             else
