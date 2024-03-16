@@ -4,35 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c35de67d-46bf-4188-80be-d3343c2c295d" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Assets/_Data/Enemies/Enemy.asset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/_Data/Enemies/Enemy.asset.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/_Scripts/EnemyBehavior.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/_Scripts/EnemyBehavior.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/_Scripts/Entities/ScoutData.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/_Scripts/Entities/ScoutData.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/_Scripts/Helpers.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/_Scripts/Helpers/DebugHelper.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/_Scripts/Helpers/DebugHelper.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/_Scripts/Helpers/Helper.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/_Scripts/Helpers/Helper.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/_Scripts/Player.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.Peanut/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Peanut/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/ProtoScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/ProtoScene.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Scripts/ControlSchemeAutomater.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Scripts/ControlSchemeAutomater.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Scripts/Controllers/CamController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Scripts/Controllers/CamController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Scripts/Controllers/PlayerController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Scripts/Controllers/PlayerController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Scripts/DebugHelper.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Scripts/DebugHelper.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Scripts/Entities/EnemyData.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Scripts/Entities/EnemyData.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Scripts/Entities/Entity.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Scripts/Entities/Entity.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Scripts/Helper.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Scripts/Helper.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Scripts/Interfaces/IEntity.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Scripts/Interfaces/IEntity.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Scripts/Player.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Scripts/Player.cs.meta" beforeDir="false" />
-    </list>
+    <list default="true" id="c35de67d-46bf-4188-80be-d3343c2c295d" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -126,7 +98,7 @@
       <workItem from="1710576801065" duration="18000" />
       <workItem from="1710576830129" duration="10863000" />
       <workItem from="1710605197294" duration="1000" />
-      <workItem from="1710605211657" duration="5486000" />
+      <workItem from="1710605211657" duration="5559000" />
     </task>
     <servers />
   </component>
