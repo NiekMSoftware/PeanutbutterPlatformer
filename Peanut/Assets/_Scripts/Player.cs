@@ -4,6 +4,12 @@ using UnityEngine;
 
 namespace _Scripts
 {
+    /// <summary>
+    /// The class that would contain all the important Player matters.
+    /// For example this would see if the player has died or not so the player can't do anything anymore!
+    /// Check out <see cref="ControlPlayer"/> for more information!
+    /// <seealso cref="PlayerController"/>
+    /// </summary>
     [RequireComponent(typeof(PlayerController))]
     public class Player : MonoBehaviour
     {
@@ -33,7 +39,9 @@ namespace _Scripts
         }
 
         /// <summary>
-        /// The function to control the player.
+        /// The function to control the player. This is done by checking if the player has died or not.
+        /// If they did then player is unable to give in inputs to the game to move their character!
+        /// <seealso cref="PlayerController"/>
         /// </summary>
         private void ControlPlayer()
         {
