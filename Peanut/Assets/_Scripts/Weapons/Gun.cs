@@ -10,7 +10,10 @@ namespace Assets._Scripts.Weapons
 
         [Space(10)]
         [SerializeField] private int magSize;
-        [SerializeField] private float fireRate;
+        [SerializeField] private int currentMagSize;
 
+        [Space(5)]
+        [SerializeField] private float fireRate;
+        [SerializeField] private float reloadTime;
     }
 }

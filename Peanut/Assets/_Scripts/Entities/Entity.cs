@@ -1,59 +1,37 @@
+﻿using Assets._Scripts.Interfaces;
 using UnityEngine;
 
-namespace Assets._Scripts.Entities
+namespace _Scripts.Entities
 {
-    public abstract class Entity : ScriptableObject
+    public abstract class Entity : ScriptableObject, IEntity
     {
-        [Header("Entity Data")] 
-        [SerializeField] protected float maxHealth;
-        protected float health;
+        [Header("Base Entity Properties")]
+        public float Health;
+        public float MaxHealth;
 
-        [SerializeField] protected bool isDead;
+        [Space(5)]
+        public float Damage;
 
-        [Header("Entity Movement Statistics")] 
-        [SerializeField] protected float speed;
-        [SerializeField] protected float jumpForce;
-        [SerializeField] protected float dragAmount;
+        [Header("Post-Processing")]
+        public Animator EntityAnimator;
 
-        #region Public Properties
+        [Space(5)]
+        public AudioSource SfxSource;
+        public AudioClip SfxClip;
 
-        public float MaxHealth
+        public virtual void TakeDamage(float damage)
         {
-            get => maxHealth;
-            set => maxHealth = value;
+            throw new System.NotImplementedException();
         }
 
-        public float Health
+        public virtual float DealDamage()
         {
-            get => health;
-            set => health = value;
+            throw new System.NotImplementedException();
         }
 
-        public float Speed
+        public virtual bool HasDied()
         {
-            get => speed;
-            set => speed = value;
+            throw new System.NotImplementedException();
         }
-
-        public float JumpForce
-        {
-            get => jumpForce;
-            set => jumpForce = value;
-        }
-
-        public bool IsDead
-        {
-            get => isDead;
-            set => isDead = value;
-        }
-
-        public float DragAmount
-        {
-            get => dragAmount;
-            set => dragAmount = value;
-        }
-
-        #endregion
-
     }
 }

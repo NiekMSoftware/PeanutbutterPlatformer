@@ -183,7 +183,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9ffc88e83c1bf746aa73fada903a98a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlayerEntityData: {fileID: 11400000, guid: 51cb3b6f82192f3429590c03b387a413, type: 2}
   playerBod: {fileID: 0}
   jumpTimer: 0.5
   gravityScale: 12
@@ -195,6 +194,9 @@ MonoBehaviour:
   Radius: 0.3
   TpCamera: {fileID: 0}
   TurnSmoothTime: 0.1
+  _speed: 3
+  _drag: 8
+  _jumpForce: 4
 --- !u!114 &8956267853573733486
 MonoBehaviour:
   m_ObjectHideFlags: 0

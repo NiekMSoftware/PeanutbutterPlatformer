@@ -23,7 +23,7 @@ namespace Assets._Scripts.Controllers
         [Range(1f, 10f)] 
         [SerializeField] private float slowAdjustmentSpeed;
 
-        [Range(1f, 5f)]
+        [Range(1f, 10f)]
         [SerializeField] private float slowRange;
 
         [Header("Camera Properties")]
@@ -132,8 +132,10 @@ namespace Assets._Scripts.Controllers
         /// <returns>Returns true if obstructed, false otherwise.</returns>
         bool IsColliding()
         {
-            return Physics.Raycast(child.position, transform.position, Vector3.Distance(child.position, transform.position), collisionLayer) ||
-                   Physics.Raycast(transform.position, child.position, Vector3.Distance(child.position, transform.position), collisionLayer) ||
+            return Physics.Raycast(child.position, (transform.position - child.position).normalized,
+                       Vector3.Distance(child.position, transform.position), collisionLayer) ||
+                   Physics.Raycast(transform.position, (child.position - transform.position).normalized,
+                       Vector3.Distance(child.position, transform.position), collisionLayer) ||
                    CheckCollidersOverlap(Physics.OverlapBox(child.position, transform.localScale / 2, Quaternion.identity, collisionLayer));
         }
 

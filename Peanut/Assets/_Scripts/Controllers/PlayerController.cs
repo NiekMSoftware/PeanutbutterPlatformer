@@ -1,4 +1,3 @@
-using Assets._Scripts.Entities;
 using Assets._Scripts.Interfaces;
 using UnityEngine;
 
@@ -11,9 +10,6 @@ namespace Assets._Scripts.Controllers
     [RequireComponent(typeof(CapsuleCollider))]
     public class PlayerController : MonoBehaviour
     {
-        [Tooltip("The playerEntityData is basically the data of a scriptable object that has the stats of the player.")] 
-        public Player PlayerEntityData;
-
         [Space]
         [SerializeField] private Rigidbody playerBod;
 
@@ -38,12 +34,9 @@ namespace Assets._Scripts.Controllers
 
         #region Movement Properties
 
-        private float maxHealth;
-        public float Health;
-
-        private float _speed;
-        private float _drag;
-        private float _jumpForce;
+        public float _speed;
+        public float _drag;
+        public float _jumpForce;
 
         #endregion
 
@@ -66,9 +59,6 @@ namespace Assets._Scripts.Controllers
 
         void Update()
         {
-            // keep track of the data
-            KeepTrackOfData();
-
             // gather input
             GetInput();
 
@@ -84,23 +74,6 @@ namespace Assets._Scripts.Controllers
             // gather the components
             playerBod = GetComponent<Rigidbody>();
             GetComponent<CapsuleCollider>();
-
-            _speed = PlayerEntityData.Speed;
-            _drag = PlayerEntityData.DragAmount;
-            _jumpForce = PlayerEntityData.JumpForce;
-
-            maxHealth = PlayerEntityData.MaxHealth;
-            Health = maxHealth;
-        }
-
-        /// <summary>
-        /// This function will make sure the data of the SO would get updated accordingly within the <c>Update()</c> method.
-        /// </summary>
-        private void KeepTrackOfData()
-        {
-            _speed = PlayerEntityData.Speed;
-            _drag = PlayerEntityData.DragAmount;
-            _jumpForce = PlayerEntityData.JumpForce;
         }
 
         /// <summary>
@@ -151,7 +124,10 @@ namespace Assets._Scripts.Controllers
             if (_pressedJump && IsGrounded())
             {
                 Vector3 jumpDirection = Vector3.up * _jumpForce;
-                playerBod.velocity = new Vector3(playerBod.velocity.x, jumpDirection.y, playerBod.velocity.z);
+                
+                var velocity = playerBod.velocity;
+                velocity = new Vector3(velocity.x, jumpDirection.y, velocity.z);
+                playerBod.velocity = velocity;
 
                 // set a countdown
                 _isJumping = true;
@@ -164,7 +140,10 @@ namespace Assets._Scripts.Controllers
                 if (jumpTimerCountdown > 0)
                 {
                     Vector3 jumpDirection = Vector3.up * _jumpForce;
-                    playerBod.velocity = new Vector3(playerBod.velocity.x, jumpDirection.y, playerBod.velocity.z);
+
+                    var velocity = playerBod.velocity;
+                    velocity = new Vector3(velocity.x, jumpDirection.y, velocity.z);
+                    playerBod.velocity = velocity;
 
                     jumpTimerCountdown -= Time.deltaTime;
                 }

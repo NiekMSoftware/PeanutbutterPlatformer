@@ -9,6 +9,8 @@ namespace Assets._Scripts.Weapons
 
         [Space(10)]
         [SerializeField] protected string WeaponName;
+
+        [Range(1f, 50f)]
         [SerializeField] protected float Damage;
 
         [Header("Post-Processing")] 
