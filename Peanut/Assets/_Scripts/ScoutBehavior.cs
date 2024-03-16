@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace _Scripts
 {
-    public class EnemyBehavior : MonoBehaviour
+    public class ScoutBehavior : MonoBehaviour
     {
         private enum Behavior
         {
