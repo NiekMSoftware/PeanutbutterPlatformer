@@ -6,14 +6,15 @@ namespace _Scripts.Entities
     public abstract class Entity : ScriptableObject, IEntity
     {
         [Header("Base Entity Properties")]
-        public float Health;
         public float MaxHealth;
+        public float Health;
 
         [Space(5)]
         public float Damage;
 
         [Header("Post-Processing")]
         public Animator EntityAnimator;
+        public ParticleSystem EntityParticles;
 
         [Space(5)]
         public AudioSource SfxSource;

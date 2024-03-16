@@ -2,9 +2,19 @@
 
 namespace _Scripts.Entities
 {
-    [CreateAssetMenu(fileName = "EnemyData", menuName = "Entities/Enemies")]
-    public class EnemyData : Entity
+    [CreateAssetMenu(fileName = "PlayerData", menuName = "Entities/Player")]
+    public class PlayerData : Entity
     {
+        [Header("Movement Properties")]
+        [Range(1f,  10f)]
+        public float Speed;
+
+        [Range(1f, 20f)]
+        public float Drag;
+
+        [Range(1f, 20f)]
+        public float JumpForce;
+        
         public override float DealDamage()
         {
             float damage = Damage;

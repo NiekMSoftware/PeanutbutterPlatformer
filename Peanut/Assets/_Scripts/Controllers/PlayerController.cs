@@ -1,7 +1,7 @@
-using Assets._Scripts.Interfaces;
+using Assets._Scripts;
 using UnityEngine;
 
-namespace Assets._Scripts.Controllers
+namespace _Scripts.Controllers
 {
     /// <summary>
     /// The controller of the player. This class is responsible to handle everything the player wants to do.
@@ -10,7 +10,6 @@ namespace Assets._Scripts.Controllers
     [RequireComponent(typeof(CapsuleCollider))]
     public class PlayerController : MonoBehaviour
     {
-        [Space]
         [SerializeField] private Rigidbody playerBod;
 
         [Header("Jumping Properties")] 
@@ -18,8 +17,8 @@ namespace Assets._Scripts.Controllers
         private float jumpTimerCountdown;
 
         [Header("Gravity Manipulation")]
-        [SerializeField] private float gravityScale = 0f;
-        [SerializeField] private float fallingSpeed = 0f;
+        [SerializeField] private float gravityScale;
+        [SerializeField] private float fallingSpeed;
 
         [Header("Ground Check")] 
         public LayerMask GroundLayer;
@@ -31,12 +30,15 @@ namespace Assets._Scripts.Controllers
 
         public float TurnSmoothTime = 0.1f;
         private float turnSmoothVelocity;
+        
+        // player class
+        private Player player;
 
         #region Movement Properties
-
-        public float _speed;
-        public float _drag;
-        public float _jumpForce;
+        
+        private float _speed;
+        private float _drag;
+        private float _jumpForce;
 
         #endregion
 
@@ -57,7 +59,10 @@ namespace Assets._Scripts.Controllers
             Init();
         }
 
-        void Update()
+        /// <summary>
+        /// This function gets called from the <see cref="Player"/> class.
+        /// </summary>
+        public void HandlePlayer()
         {
             // gather input
             GetInput();
@@ -73,7 +78,13 @@ namespace Assets._Scripts.Controllers
         {
             // gather the components
             playerBod = GetComponent<Rigidbody>();
+            player = GetComponent<Player>();
             GetComponent<CapsuleCollider>();
+            
+            // initialize the variables
+            _speed = player.PlayerEntity.Speed;
+            _drag = player.PlayerEntity.Drag;
+            _jumpForce = player.PlayerEntity.JumpForce;
         }
 
         /// <summary>
@@ -186,9 +197,9 @@ namespace Assets._Scripts.Controllers
         private bool IsGrounded()
         {
             // check with a sphere is the player is grounded or not
-            var pos = GroundChecker.position;
+            var position = GroundChecker.position;
 
-            Collider[] colliders = Physics.OverlapSphere(pos, Radius, GroundLayer);
+            Collider[] colliders = Physics.OverlapSphere(position, Radius, GroundLayer);
 
             return colliders.Length > 0;
         }

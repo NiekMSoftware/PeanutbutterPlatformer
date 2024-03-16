@@ -491,7 +491,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 940905a0bdf49724bb2c5cc7fbfc4441, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  entityData: {fileID: 11400000, guid: 88920a071747e2c43bcbf0a14bccb9dd, type: 2}
+  entityData: {fileID: 0}
   player: {fileID: 0}
   _health: 0
   _rb: {fileID: 0}
@@ -1095,24 +1095,9 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7412193491239734271, guid: 3b8ea71d1c8b55a46af65ea2574683af,
         type: 3}
-      propertyPath: _drag
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 7412193491239734271, guid: 3b8ea71d1c8b55a46af65ea2574683af,
-        type: 3}
-      propertyPath: _speed
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 7412193491239734271, guid: 3b8ea71d1c8b55a46af65ea2574683af,
-        type: 3}
       propertyPath: TpCamera
       value: 
       objectReference: {fileID: 1377803031}
-    - target: {fileID: 7412193491239734271, guid: 3b8ea71d1c8b55a46af65ea2574683af,
-        type: 3}
-      propertyPath: _jumpForce
-      value: 4
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

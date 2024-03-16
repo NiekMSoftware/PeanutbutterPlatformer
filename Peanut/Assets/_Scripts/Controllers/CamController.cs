@@ -105,14 +105,18 @@ namespace Assets._Scripts.Controllers
             if (IsColliding())
             {
                 // Adjust the child's position to avoid colliding with the ground
-                child.localPosition = 
-                    Vector3.MoveTowards(child.localPosition, new Vector3(child.localPosition.x, child.localPosition.y, transform.localPosition.z),
-                        speed * Time.deltaTime);
+                var localPosition = child.localPosition;
+                
+                localPosition = Vector3.MoveTowards(localPosition, new Vector3(localPosition.x, 
+                            localPosition.y, transform.localPosition.z), speed * Time.deltaTime);
+                
+                child.localPosition = localPosition;
             }
             else if (!IsColliding() && !shouldStop)
             {
                 // Move the child back to its original position if not colliding with the ground and not stopped
-                child.localPosition = Vector3.MoveTowards(child.localPosition, originalPosition, speed * Time.deltaTime);
+                child.localPosition = Vector3.MoveTowards(child.localPosition,
+                    originalPosition, speed * Time.deltaTime);
             }
         }
 
@@ -130,7 +134,7 @@ namespace Assets._Scripts.Controllers
         /// Checks if something is obstructing the camera's view.
         /// </summary>
         /// <returns>Returns true if obstructed, false otherwise.</returns>
-        bool IsColliding()
+        private bool IsColliding()
         {
             return Physics.Raycast(child.position, (transform.position - child.position).normalized,
                        Vector3.Distance(child.position, transform.position), collisionLayer) ||
