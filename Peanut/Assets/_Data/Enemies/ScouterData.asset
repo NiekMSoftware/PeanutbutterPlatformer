@@ -19,4 +19,4 @@ MonoBehaviour:
   EntityParticles: {fileID: 0}
   SfxSource: {fileID: 0}
   SfxClip: {fileID: 0}
-  Speed: 1
+  Speed: 10
