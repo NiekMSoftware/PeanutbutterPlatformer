@@ -11,14 +11,14 @@ namespace Assets._Scripts.Weapons
         [SerializeField] protected string WeaponName;
 
         [Range(1f, 50f)]
-        [SerializeField] protected float Damage;
+        public float Damage;
 
         [Header("Post-Processing")] 
-        [SerializeField] protected AudioSource WeaponSfx;
-        [SerializeField] protected AudioClip WeaponSfxClip;
+        public AudioSource WeaponSfx;
+        public AudioClip WeaponSfxClip;
         
         [Space(5)]
-        [SerializeField] protected ParticleSystem WeaponParticle;
-        [SerializeField] protected Animator WeaponAnimator;
+        public ParticleSystem WeaponParticle;
+        public Animator WeaponAnimator;
     }
 }

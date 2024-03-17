@@ -1,12 +1,19 @@
+using Assets._Scripts.Interfaces;
+using Assets._Scripts.Weapons;
 using UnityEngine;
 
-namespace Assets._Scripts.Weapons
+namespace _Scripts.Weapons
 {
-    [CreateAssetMenu(fileName = "Melee", menuName = "Weapons/Melee", order = 2)]
-    public class Melee : Weapon
+    public class Melee : MonoBehaviour, IWeapon
     {
-        [Header("Melee Properties")]
-        [Range(0.1f, 5f)]
-        [SerializeField] private float meleeSpeed;
+        [Header("Melee Data")]
+        public MeleeData MeleeData;
+
+        public float DealDamage()
+        {
+            float damage = MeleeData.Damage;
+
+            return damage;
+        }
     }
 }

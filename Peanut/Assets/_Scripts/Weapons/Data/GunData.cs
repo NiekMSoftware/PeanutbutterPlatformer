@@ -3,7 +3,7 @@
 namespace Assets._Scripts.Weapons
 {
     [CreateAssetMenu(fileName = "Gun", menuName = "Weapons/Gun", order = 1)]
-    public class Gun : Weapon
+    public class GunData : Weapon
     {
         [Header("Gun Properties")] 
         [SerializeField] private GameObject bulletPrefab;

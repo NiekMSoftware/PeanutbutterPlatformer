@@ -8,13 +8,6 @@ namespace _Scripts.Entities
         [Header("Enemy Data Properties")]
         [Range(1f, 20f)]
         public float Speed;
-        
-        public override float DealDamage()
-        {
-            float damage = Damage;
-
-            return damage;
-        }
 
         public override void TakeDamage(float damage)
         {

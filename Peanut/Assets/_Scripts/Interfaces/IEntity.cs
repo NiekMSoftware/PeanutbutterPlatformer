@@ -7,12 +7,6 @@
         /// </summary>
         /// <param name="damage">The amount of damage that would be dealt.</param>
         void TakeDamage(float damage);
-
-        /// <summary>
-        /// Makes sure that <c>DealDamage()</c> deals damage to an entity.
-        /// </summary>
-        /// <returns>The amount of damage that will be dealt to it.</returns>
-        float DealDamage();
         
         public void Attack();
 

@@ -7,19 +7,15 @@ namespace _Scripts.Entities
     {
         public override void Attack()
         {
+            // play attack animation, animation event would deal damage.
             
-        }
-
-        public override float DealDamage()
-        {
-            return 0f;
+            // check if player is still in range, if not find the player.
+            // if that is unsuccessful, go back to patrolling
         }
 
         public override void TakeDamage(float damage)
         {
             
         }
-
-        public override bool HasDied() => base.HasDied();
     }
 }

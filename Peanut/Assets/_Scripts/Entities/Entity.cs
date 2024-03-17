@@ -25,11 +25,6 @@ namespace _Scripts.Entities
             throw new System.NotImplementedException();
         }
 
-        public virtual float DealDamage()
-        {
-            throw new System.NotImplementedException();
-        }
-
         public virtual void Attack()
         {
             throw new System.NotImplementedException();

@@ -10,10 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3c0613f68630865438aad9048c591304, type: 3}
-  m_Name: Kutana
+  m_Name: Katana
   m_EditorClassIdentifier: 
-  WeaponPrefab: {fileID: 0}
-  WeaponName: Kutana
+  WeaponPrefab: {fileID: 153309853334223933, guid: 89bc6d2581c4c7b44af9cc67792b73f9,
+    type: 3}
+  WeaponName: Katana
   Damage: 50
   WeaponSfx: {fileID: 0}
   WeaponSfxClip: {fileID: 0}

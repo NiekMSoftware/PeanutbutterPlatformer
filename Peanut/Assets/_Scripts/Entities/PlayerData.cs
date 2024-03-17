@@ -14,13 +14,6 @@ namespace _Scripts.Entities
 
         [Range(1f, 20f)]
         public float JumpForce;
-        
-        public override float DealDamage()
-        {
-            float damage = Damage;
-
-            return damage;
-        }
 
         public override void TakeDamage(float damage)
         {
