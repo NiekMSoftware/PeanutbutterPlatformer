@@ -995,11 +995,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7038658618533388106, guid: 2a157a9eda88fbe45bddcde8a8c7e952,
         type: 3}
-      propertyPath: player
-      value: 
-      objectReference: {fileID: 718129486}
-    - target: {fileID: 7038658618533388106, guid: 2a157a9eda88fbe45bddcde8a8c7e952,
-        type: 3}
       propertyPath: target
       value: 
       objectReference: {fileID: 718129486}
@@ -1008,6 +1003,11 @@ PrefabInstance:
       propertyPath: PlayerInput
       value: 
       objectReference: {fileID: 718129496}
+    - target: {fileID: 7038658618533388106, guid: 2a157a9eda88fbe45bddcde8a8c7e952,
+        type: 3}
+      propertyPath: adjustSpeed
+      value: 50
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

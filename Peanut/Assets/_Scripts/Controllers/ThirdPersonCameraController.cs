@@ -3,11 +3,10 @@
 // Copyright Niek Melet
 
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace _Scripts.Controllers
 {
-    public class CamController : MonoBehaviour
+    public class ThirdPersonCameraController : MonoBehaviour
     {
         [Tooltip("Make sure to insert the target component of the target.")]
         public Player.Player PlayerInput;
@@ -172,7 +171,7 @@ namespace _Scripts.Controllers
         /// <returns>Returns true if obstructed, false otherwise.</returns>
         private bool IsColliding()
         {
-            // Check if there are any obstructions between camera and target using raycasts
+            // Check if there are any obstructions between camera and target using ray-casts
             return Physics.Raycast(child.position, (transform.position - child.position).normalized, 
                        Vector3.Distance(child.position, transform.position), collLayer) ||
                    Physics.Raycast(transform.position, (child.position - transform.position).normalized, 

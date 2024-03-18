@@ -5,18 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c35de67d-46bf-4188-80be-d3343c2c295d" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Assets/_Scripts/Controllers/Camera.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/_Scripts/Controllers/Camera.cs.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Peanut/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Peanut/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/PlayerControls.inputactions" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/PlayerControls.inputactions" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Third Person Camera.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Third Person Camera.prefab" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/ProtoScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/ProtoScene.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Data/Enemies/ScouterData.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Data/Enemies/ScouterData.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Data/PlayerData.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Data/PlayerData.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Scripts/Controllers/CamController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Scripts/Controllers/CamController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Scripts/Controllers/PlayerController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Scripts/Controllers/PlayerController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Scripts/Entities/PlayerData.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Scripts/Entities/PlayerData.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Scripts/Player/Player.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Scripts/Player/Player.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/_Scripts/Controllers/CamController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Scripts/Controllers/ThirdPersonCameraController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/_Scripts/Controllers/CamController.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Scripts/Controllers/ThirdPersonCameraController.cs.meta" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -117,7 +110,7 @@
       <workItem from="1710672165147" duration="1000" />
       <workItem from="1710672189066" duration="2210000" />
       <workItem from="1710748890225" duration="212000" />
-      <workItem from="1710752626905" duration="10327000" />
+      <workItem from="1710752626905" duration="11375000" />
     </task>
     <servers />
   </component>

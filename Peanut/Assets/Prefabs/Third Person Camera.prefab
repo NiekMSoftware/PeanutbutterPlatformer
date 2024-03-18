@@ -185,12 +185,12 @@ MonoBehaviour:
   PlayerInput: {fileID: 0}
   sphereSize: 0.7
   originalPosition: {x: 0, y: 1, z: -3.5}
-  adjustSpeed: 50
+  adjustSpeed: 1000
   slowAdjustmentSpeed: 3.5
   slowRange: 2
   Sensitivity: 5
   child: {fileID: 4666358854956412218}
-  player: {fileID: 0}
+  target: {fileID: 0}
   collLayer:
     serializedVersion: 2
     m_Bits: 63
