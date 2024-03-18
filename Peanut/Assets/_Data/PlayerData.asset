@@ -20,5 +20,6 @@ MonoBehaviour:
   SfxSource: {fileID: 0}
   SfxClip: {fileID: 0}
   Speed: 3
+  SprintSpeed: 8
   Drag: 8
   JumpForce: 5

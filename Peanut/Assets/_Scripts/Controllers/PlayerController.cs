@@ -40,6 +40,7 @@ namespace _Scripts.Controllers
         private float _speed;
         private float _drag;
         private float _jumpForce;
+        private float _sprintSpeed;
 
         #endregion
 
@@ -86,6 +87,7 @@ namespace _Scripts.Controllers
             _speed = player.PlayerEntity.Speed;
             _drag = player.PlayerEntity.Drag;
             _jumpForce = player.PlayerEntity.JumpForce;
+            _sprintSpeed = player.PlayerEntity.SprintSpeed;
         }
 
         /// <summary>
@@ -120,7 +122,14 @@ namespace _Scripts.Controllers
 
                 // Move player forward based on cam
                 Vector3 direction = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
-                playerBod.velocity = new Vector3(direction.x * _speed, playerBod.velocity.y, direction.z * _speed);
+                
+                // check if sprint is pressed
+                if (!player.HoldingSprint)
+                    playerBod.velocity = 
+                        new Vector3(direction.x * _speed, playerBod.velocity.y, direction.z * _speed);
+                else
+                    playerBod.velocity = new Vector3(direction.x * _sprintSpeed, playerBod.velocity.y,
+                        direction.z * _sprintSpeed);
             }
 
             // apply a drag

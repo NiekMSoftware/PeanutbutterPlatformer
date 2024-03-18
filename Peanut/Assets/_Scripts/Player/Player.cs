@@ -23,6 +23,8 @@ namespace _Scripts.Player
         
         [HideInInspector] public float XMovement;
         [HideInInspector] public float ZMovement;
+        [HideInInspector] public bool HoldingSprint;
+        
         [HideInInspector] public bool PressedJump;
         [HideInInspector] public bool HoldingJump;
         [HideInInspector] public bool ReleasedJump;
@@ -77,6 +79,7 @@ namespace _Scripts.Player
         {
             XMovement = PlayerInputSystem.actions["Move"].ReadValue<Vector2>().x;
             ZMovement = PlayerInputSystem.actions["Move"].ReadValue<Vector2>().y;
+            HoldingSprint = PlayerInputSystem.actions["Run"].IsPressed();
 
             PressedJump = PlayerInputSystem.actions["Jump"].WasPressedThisFrame();
             HoldingJump = PlayerInputSystem.actions["Jump"].IsPressed();

@@ -8,6 +8,8 @@ namespace _Scripts.Entities
         [Header("Movement Properties")]
         [Range(1f,  10f)]
         public float Speed;
+        [Range(1f, 10f)]
+        public float SprintSpeed;
 
         [Range(1f, 20f)]
         public float Drag;

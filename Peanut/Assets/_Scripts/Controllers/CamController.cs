@@ -3,39 +3,59 @@
 // Copyright Niek Melet
 
 using UnityEngine;
-using UnityEngine.InputSystem;
+using UnityEngine.Serialization;
 
 namespace _Scripts.Controllers
 {
     public class CamController : MonoBehaviour
     {
-        [Tooltip("Make sure to insert the Player component of the player.")]
+        [Tooltip("Make sure to insert the target component of the target.")]
         public Player.Player PlayerInput;
-
+        
         [Header("Collision Detection")]
-        [SerializeField] private float boxSize = 0;
+        [Tooltip("The size of the sphere cast to check the collision.")]
+        [SerializeField] private float sphereSize;
+        
+        [Tooltip("THe original position of the camera. The camera would automatically go towards this position.")]
         [SerializeField] private Vector3 originalPosition;
 
         [Space(10)]
-        [Range(1f, 20f)]
+        
+        [Range(1f, 50f)]
+        [Tooltip("The adjustment speed of the camera.")]
         [SerializeField] private float adjustSpeed = 25;
 
         [Range(1f, 10f)] 
+        [Tooltip("The slow adjustment speed once the camera is slow.")]
         [SerializeField] private float slowAdjustmentSpeed;
 
         [Range(1f, 10f)]
+        [Tooltip("The distance at which the camera should slow down.")]
         [SerializeField] private float slowRange;
 
         [Header("Camera Properties")]
+        
+        [Range(1, 10)]
+        [Tooltip("The sensitivity of the camera. This is both applicable for Mouse & Gamepad input.")]
+        public int Sensitivity = 5;
+        
+        [Space(5)]
+        
+        [Tooltip("Apply the child(Camera) to this variable.")]
         [SerializeField] private Transform child;
-        [SerializeField] private Transform Target;
-
+        
+        [Tooltip("Target is the target the camera should follow, most cases this is player.")]
+        [SerializeField] private Transform target;
+        
         [Space(10)]
-        [SerializeField] private LayerMask collisionLayer;
-
-        private bool isSlow;
-        private bool shouldStop;
-        private Vector2 input;
+        [Tooltip("The layer the camera is colliding with.")]
+        [SerializeField] private LayerMask collLayer;
+        
+        private bool isSlow; // flag indicates if the camera should be slow
+        private bool stop; // flag indicates if the camera should stop
+        
+        private Vector2 input; // the input of the Player Actions
+        private GameObject obj; // the last object the camera collided with.
 
         void Start()
         {
@@ -45,14 +65,16 @@ namespace _Scripts.Controllers
 
         void Update()
         {
+            transform.position = 
+                new Vector3(target.position.x, target.position.y + originalPosition.y, target.position.z);
+
             HandleInput();
-            HandleCameraCollision();
         }
 
         void LateUpdate()
         {
-            transform.position = Target.position;
             RotateCamera();
+            HandleCameraCollision();
         }
 
         void FixedUpdate()
@@ -61,7 +83,7 @@ namespace _Scripts.Controllers
         }
 
         /// <summary>
-        /// Handles player input for camera movement.
+        /// Handles target input for camera movement.
         /// </summary>
         private void HandleInput()
         {
@@ -77,46 +99,48 @@ namespace _Scripts.Controllers
         }
 
         /// <summary>
-        /// Rotates the camera based on player input.
+        /// Rotates the camera based on target input.
         /// </summary>
         private void RotateCamera()
         {
-            float yInput = -input.y * adjustSpeed * Time.deltaTime;
-            float xInput = input.x * adjustSpeed * Time.deltaTime;
+            // Calculate the vertical and horizontal input for camera rotation
+            float yInput = -input.y * Sensitivity * Time.deltaTime;
+            float xInput = input.x * Sensitivity * Time.deltaTime;
 
+            // Calculate the current rotation angle around the X-axis, ensuring it stays within the desired range
             float angleX = transform.eulerAngles.x > 256 ? transform.eulerAngles.x - 360 : transform.eulerAngles.x;
             float currentRotationX = Mathf.Clamp(angleX + yInput, -60, 60);
 
+            // Calculate the new rotation around the Y-axis
             float yRotation = transform.eulerAngles.y + xInput;
 
+            // Apply the new rotation to the camera transform
+            // Note: Using Quaternion.Euler to construct a rotation from Euler angles
+            // while preserving the original Z-axis rotation
             transform.rotation = Quaternion.Euler(currentRotationX, yRotation, transform.rotation.z);
-
-            // look at the player
-            transform.LookAt(Target);
         }
 
         /// <summary>
-        /// Handles camera collision detection and adjustment.
+        /// Handles camera collision detection and adjustment to prevent clipping through objects.
         /// </summary>
         private void HandleCameraCollision()
         {
+            // Determine the adjustment speed based on whether the camera is in slow mode or regular mode
             float speed = isSlow ? slowAdjustmentSpeed : adjustSpeed;
 
+            // Check if the camera is currently colliding with any objects
             if (IsColliding())
             {
-                // Adjust the child's position to avoid colliding with the ground
-                var localPosition = child.localPosition;
-                
-                localPosition = Vector3.MoveTowards(localPosition, new Vector3(localPosition.x, 
-                            localPosition.y, transform.localPosition.z), speed * Time.deltaTime);
-                
-                child.localPosition = localPosition;
+                // Adjust the camera position to move away from the colliding object
+                child.localPosition = Vector3.MoveTowards(child.localPosition,
+                    new Vector3(child.localPosition.x, child.localPosition.y, transform.position.z),
+                    speed * Time.deltaTime);
             }
-            else if (!IsColliding() && !shouldStop)
+            else if (!IsColliding() && !stop)
             {
                 // Move the child back to its original position if not colliding with the ground and not stopped
                 child.localPosition = Vector3.MoveTowards(child.localPosition,
-                    originalPosition, speed * Time.deltaTime);
+                    new Vector3(0, 0, originalPosition.z), slowAdjustmentSpeed * Time.deltaTime);
             }
         }
 
@@ -125,9 +149,21 @@ namespace _Scripts.Controllers
         /// </summary>
         private void CheckCameraCollision()
         {
-            shouldStop = CheckCollidersOverlap(Physics.OverlapBox(child.position,
-                new Vector3(boxSize, boxSize, boxSize), Quaternion.identity, collisionLayer));
-            isSlow = Physics.Raycast(child.position, -child.forward, slowRange, collisionLayer);
+            // Check for collision using a sphere cast from the camera position
+            stop = CollCheck(Physics.OverlapSphere(child.position, sphereSize, collLayer), out GameObject tempObj);
+
+            // If a colliding object is found, assign it to 'obj'
+            if (tempObj != null)
+                obj = tempObj;
+
+            // If 'obj' is still null, return as there is no collision
+            if (obj == null)
+                return;
+
+            // Determine if the camera should switch to slow mode based on distance to object and angle
+            isSlow = Vector3.Distance(obj.transform.position, child.position) < slowRange &&
+                     Vector3.Dot(-child.forward, obj.transform.position - child.position) > 0.0f ||
+                     Physics.Raycast(child.position, -child.forward, slowRange, collLayer);
         }
 
         /// <summary>
@@ -136,25 +172,47 @@ namespace _Scripts.Controllers
         /// <returns>Returns true if obstructed, false otherwise.</returns>
         private bool IsColliding()
         {
-            return Physics.Raycast(child.position, (transform.position - child.position).normalized,
-                       Vector3.Distance(child.position, transform.position), collisionLayer) ||
-                   Physics.Raycast(transform.position, (child.position - transform.position).normalized,
-                       Vector3.Distance(child.position, transform.position), collisionLayer) ||
-                   CheckCollidersOverlap(Physics.OverlapBox(child.position, transform.localScale / 2, Quaternion.identity, collisionLayer));
+            // Check if there are any obstructions between camera and target using raycasts
+            return Physics.Raycast(child.position, (transform.position - child.position).normalized, 
+                       Vector3.Distance(child.position, transform.position), collLayer) ||
+                   Physics.Raycast(transform.position, (child.position - transform.position).normalized, 
+                       Vector3.Distance(child.position, transform.position), collLayer) ||
+                   
+                   // Additionally, check for collisions within a sphere around the camera position
+                   CollCheck(Physics.OverlapSphere(child.position, transform.localScale.x / 2.1f, collLayer));
         }
 
+
         /// <summary>
-        /// Checks if any colliders overlap with the camera.
+        /// Checks if any col overlap with the camera.
         /// </summary>
-        /// <param name="colliders">An array of colliders to check for overlap.</param>
-        /// <returns>Returns true if colliders overlap, false otherwise.</returns>
-        private bool CheckCollidersOverlap(Collider[] colliders)
+        /// <param name="col">An array of col to check for overlap.</param>
+        /// <returns>Returns true if col overlap, false otherwise.</returns>
+        private bool CollCheck(Collider[] col)
         {
-            foreach (var col in colliders)
+            foreach (var coll in col)
             {
-                if (col != null)
-                    return true;
+                // if any collider is not null (indicating a collision), return true
+                if (coll != null) return true;
             }
+            return false;
+        }
+        
+        /// <summary>
+        /// Checks an array of colliders for any non-null elements and retrieves the corresponding GameObject.
+        /// </summary>
+        /// <param name="col">An array of Collider objects to check.</param>
+        /// <param name="go">Out parameter to store the first non-null GameObject found.</param>
+        /// <returns>True if a non-null Collider is found and its GameObject is assigned to 'go'; otherwise, returns false.</returns>
+        private bool CollCheck(Collider[] col, out GameObject go)
+        {
+            go = null;
+            
+            foreach (var coll in col)
+            {
+                if (coll != null) { go = coll.gameObject; return true; }
+            }
+            
             return false;
         }
 
@@ -165,10 +223,13 @@ namespace _Scripts.Controllers
         /// <returns>Returns true if the control scheme is a gamepad, false otherwise.</returns>
         private bool IsGamepadControlScheme(string controlScheme)
         {
+            // the available control schemes
             string[] gamepadControlSchemes = { "Gamepad", "Gamepad&Mouse" };
 
+            // iterate through the schemes
             foreach (string scheme in gamepadControlSchemes)
             {
+                // return true if found
                 if (controlScheme.Equals(scheme))
                 {
                     return true;
