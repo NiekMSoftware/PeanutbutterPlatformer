@@ -130,10 +130,10 @@ namespace _Scripts.Controllers
             // Check if the camera is currently colliding with any objects
             if (IsColliding())
             {
+                var targetPos = new Vector3(child.localPosition.x, child.localPosition.y, transform.position.z);
+                
                 // Adjust the camera position to move away from the colliding object
-                child.localPosition = Vector3.MoveTowards(child.localPosition,
-                    new Vector3(child.localPosition.x, child.localPosition.y, transform.position.z),
-                    speed * Time.deltaTime);
+                child.localPosition = Vector3.MoveTowards(child.localPosition, targetPos, speed * Time.deltaTime);
             }
             else if (!IsColliding() && !stop)
             {

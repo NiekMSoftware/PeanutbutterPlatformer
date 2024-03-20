@@ -6,10 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="c35de67d-46bf-4188-80be-d3343c2c295d" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Peanut/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Peanut/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Third Person Camera.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Third Person Camera.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/ProtoScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/ProtoScene.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Scripts/Controllers/CamController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Scripts/Controllers/ThirdPersonCameraController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Scripts/Controllers/CamController.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Scripts/Controllers/ThirdPersonCameraController.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/_Scripts/Controllers/PlayerController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Scripts/Controllers/PlayerController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/_Scripts/Controllers/ThirdPersonCameraController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Scripts/Controllers/ThirdPersonCameraController.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -21,7 +19,11 @@
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/Assets/_Scripts/Controllers/Camera.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/_Scripts/Controllers/ThirdPersonCameraController.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/_Scripts/Weapons/Melee.cs" root0="FORCE_HIGHLIGHTING" />
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="SWEA" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 2
@@ -111,6 +113,9 @@
       <workItem from="1710672189066" duration="2210000" />
       <workItem from="1710748890225" duration="212000" />
       <workItem from="1710752626905" duration="11375000" />
+      <workItem from="1710923519775" duration="520000" />
+      <workItem from="1710925712761" duration="68000" />
+      <workItem from="1710925792559" duration="288000" />
     </task>
     <servers />
   </component>

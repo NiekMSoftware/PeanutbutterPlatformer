@@ -214,9 +214,11 @@ namespace _Scripts.Controllers
             return colliders.Length > 0;
         }
 
+#if UNITY_EDITOR
         void OnDrawGizmos()
         {
             DebugHelper.DrawWireframeSphere(GroundChecker.position, Radius, Color.red);
-        }
+        }    
+#endif
     }
 }
